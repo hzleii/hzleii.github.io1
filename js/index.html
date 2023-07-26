@@ -1,0 +1,361 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>JavaScript - 磊子的菜园子</title><meta name=Description content="JavaScript 重难点整理，包括数据类型、执行上下文、事件循环等内容。"><meta property="og:title" content="JavaScript"><meta property="og:description" content="JavaScript 重难点整理，包括数据类型、执行上下文、事件循环等内容。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.humblex.top/js/"><meta property="og:image" content="https://blog.humblex.top/images/avatar.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-07-17T00:00:00+00:00"><meta property="article:modified_time" content="2019-07-17T00:00:00+00:00"><meta property="og:site_name" content="磊子的菜园子"><meta property="og:see_also" content="https://blog.humblex.top/css/"><meta property="og:see_also" content="https://blog.humblex.top/front-end/"><meta property="og:see_also" content="https://blog.humblex.top/js-insts/"><meta property="og:see_also" content="https://blog.humblex.top/react/"><meta property="og:see_also" content="https://blog.humblex.top/vuejs/"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.humblex.top/images/avatar.jpg"><meta name=twitter:title content="JavaScript"><meta name=twitter:description content="JavaScript 重难点整理，包括数据类型、执行上下文、事件循环等内容。"><meta name=application-name content="hzlei"><meta name=apple-mobile-web-app-title content="hzlei"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://blog.humblex.top/js/><link rel=prev href=https://blog.humblex.top/js-insts/><link rel=next href=https://blog.humblex.top/front-end/><link rel=stylesheet href=/css/main.css><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/color.css><link rel=stylesheet href=/css/style.min.css><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.css><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.css></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.css><noscript><link rel=stylesheet href=/lib/animate/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"JavaScript","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.humblex.top\/js\/"},"image":["https:\/\/blog.humblex.top\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Language, JavaScript","wordcount":3437,"url":"https:\/\/blog.humblex.top\/js\/","datePublished":"2019-07-17T00:00:00+00:00","dateModified":"2019-07-17T00:00:00+00:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"hzlei","logo":"https:\/\/blog.humblex.top\/images\/avatar.jpg"},"author":{"@type":"Person","name":"磊子"},"description":"JavaScript 重难点整理，包括数据类型、执行上下文、事件循环等内容。"}</script><script src=//instant.page/5.2.0 defer type=module integrity=sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=磊子的菜园子><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span>hzlei</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/hzleii title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=磊子的菜园子><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span>hzlei</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/hzleii title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#数据>数据</a><ul><li><a href=#数据类型>数据类型</a></li><li><a href=#类型检查>类型检查</a></li></ul></li><li><a href=#类型转换>类型转换</a></li><li><a href=#执行上下文和变量提升>执行上下文和变量提升</a><ul><li><a href=#闭包>闭包</a></li><li><a href=#暂时性死区>暂时性死区</a></li></ul></li><li><a href=#event-loop-事件循环>Event Loop 事件循环</a></li><li><a href=#map-与-weakmap>Map 与 WeakMap</a></li><li><a href=#遍历和迭代>遍历和迭代</a></li><li><a href=#promise>Promise</a></li><li><a href=#this-指向绑定>This 指向绑定</a></li><li><a href=#继承与原型链>继承与原型链</a><ul><li><a href=#模拟实现-new>模拟实现 new</a></li><li><a href=#原型链继承>原型链继承</a></li><li><a href=#组合继承>组合继承</a></li><li><a href=#寄生组合继承>寄生组合继承</a></li></ul></li><li><a href=#dom-api>DOM API</a><ul><li><a href=#element-与-node>Element 与 Node</a></li><li><a href=#元素相关属性>元素相关属性</a></li><li><a href=#事件冒泡和捕获>事件、冒泡和捕获</a></li></ul></li><li><a href=#esm-与-commonjs-模块>ESM 与 CommonJS 模块</a><ul><li><a href=#加载与解析>加载与解析</a></li><li><a href=#循环依赖>循环依赖</a></li></ul></li><li><a href=#es6-新要素>ES6+ 新要素</a><ul><li><a href=#箭头函数特性>箭头函数特性</a></li></ul></li><li><a href=#es-标准流程>ES 标准流程</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">JavaScript</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=/ title=Author rel=author class=author>磊子</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/code/><i class="far fa-folder fa-fw"></i>code</a></span>&nbsp;<span class=post-category>和</span>&nbsp;<span class=post-series>系列 <a href=/series/weeb/><i class="far fa-list-alt fa-fw"></i>Weeb</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2019-07-17>2019-07-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2019-07-17>2019-07-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 3437 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 7 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/js/index.webp srcset="/js/index.webp, /js/index.webp 1.5x, /js/index.webp 2x" sizes=auto alt="JavaScript 重难点整理，包括数据类型、执行上下文、事件循环等内容。" title="JavaScript 重难点整理，包括数据类型、执行上下文、事件循环等内容。" height=270 width=1200></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#数据>数据</a><ul><li><a href=#数据类型>数据类型</a></li><li><a href=#类型检查>类型检查</a></li></ul></li><li><a href=#类型转换>类型转换</a></li><li><a href=#执行上下文和变量提升>执行上下文和变量提升</a><ul><li><a href=#闭包>闭包</a></li><li><a href=#暂时性死区>暂时性死区</a></li></ul></li><li><a href=#event-loop-事件循环>Event Loop 事件循环</a></li><li><a href=#map-与-weakmap>Map 与 WeakMap</a></li><li><a href=#遍历和迭代>遍历和迭代</a></li><li><a href=#promise>Promise</a></li><li><a href=#this-指向绑定>This 指向绑定</a></li><li><a href=#继承与原型链>继承与原型链</a><ul><li><a href=#模拟实现-new>模拟实现 new</a></li><li><a href=#原型链继承>原型链继承</a></li><li><a href=#组合继承>组合继承</a></li><li><a href=#寄生组合继承>寄生组合继承</a></li></ul></li><li><a href=#dom-api>DOM API</a><ul><li><a href=#element-与-node>Element 与 Node</a></li><li><a href=#元素相关属性>元素相关属性</a></li><li><a href=#事件冒泡和捕获>事件、冒泡和捕获</a></li></ul></li><li><a href=#esm-与-commonjs-模块>ESM 与 CommonJS 模块</a><ul><li><a href=#加载与解析>加载与解析</a></li><li><a href=#循环依赖>循环依赖</a></li></ul></li><li><a href=#es6-新要素>ES6+ 新要素</a><ul><li><a href=#箭头函数特性>箭头函数特性</a></li></ul></li><li><a href=#es-标准流程>ES 标准流程</a></li></ul></nav></div></div><div class=content id=content><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fwwarning"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>本文最后更新于 <span class=timeago datetime=2019-07-17T00:00:00 title="July 17, 2019">2019-07-17</span>，文中内容可能已过时。</div></div></div><h2 id=数据 class=headerLink><a href=#%e6%95%b0%e6%8d%ae class=header-mark></a>数据</h2><h3 id=数据类型 class=headerLink><a href=#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b class=header-mark></a>数据类型</h3><p>七种基本数据类型，一种复杂数据类型：</p><ul><li><code>number</code>：+-(2^53-1) 范围内的数字</li><li><code>string</code>：字符串</li><li><code>boolean</code>：true 和 false</li><li><code>null</code>：未知的值</li><li><code>undefined</code>：未定义的值</li><li><code>bigint</code>：任意长度的整数</li><li><code>symbol</code>：唯一标识符</li><li><code>object</code>：复杂的数据结构</li></ul><p>数据存储：</p><ul><li>栈：基本类型和引用类型地址</li><li>堆：引用类型地址实际指向的数据</li></ul><h3 id=类型检查 class=headerLink><a href=#%e7%b1%bb%e5%9e%8b%e6%a3%80%e6%9f%a5 class=header-mark></a>类型检查</h3><p><code>typeof</code> 运算符：</p><ul><li><code>typeof (()=>{})</code> 会返回 <code>"function"</code></li><li><code>typeof []</code> 会返回 <code>"object"</code></li><li><code>typeof null</code> 会返回 <code>"object"</code>，但实际上它并不是一个对象</li></ul><p><code>instanceof</code> 运算符：</p><ul><li>支持继承的对象检测方法</li></ul><p><code>Object.prototype.toString.call([])</code>：</p><ul><li><code>Object.prototype.toString.call([]) === '[object Array]'</code></li><li><code>Object.prototype.toString.call(()=>{}) === '[object Function]'</code></li></ul><h2 id=类型转换 class=headerLink><a href=#%e7%b1%bb%e5%9e%8b%e8%bd%ac%e6%8d%a2 class=header-mark></a>类型转换</h2><ul><li><code>window.isNaN('abc')</code>：<code>true</code></li><li><code>Number.isNaN('abc')</code>：此方法不进行类型转换，因此为 <code>false</code></li><li><code>[0] == true</code>：数组调用 <code>toString</code> 再变为数字 0，因此为 <code>false</code></li></ul><h2 id=执行上下文和变量提升 class=headerLink><a href=#%e6%89%a7%e8%a1%8c%e4%b8%8a%e4%b8%8b%e6%96%87%e5%92%8c%e5%8f%98%e9%87%8f%e6%8f%90%e5%8d%87 class=header-mark></a>执行上下文和变量提升</h2><p>区别 <code>let</code> 和 <code>var</code>：</p><ul><li><code>let</code> 拥有块级作用域</li><li><code>let</code> 声明的全局变量不是全局对象的属性</li><li><code>let</code> 用于循环中可以正常创建副本</li><li><code>let</code> 不允许重定义</li></ul><p>执行上下文可以理解为当前代码的执行环境，它会形成一个作用域：</p><ul><li>全局环境</li><li>函数环境</li><li><code>eval</code></li></ul><p>变量提升被认为是对执行上下文工作方式的一种认识，例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>test</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>foo</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>bar</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>foo</span> <span class=o>=</span> <span class=s1>&#39;Hello&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>foo</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>bar</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;world&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl>  <span class=kd>function</span> <span class=nx>foo</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;hello&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>test</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>等价于：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>test</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 函数声明提升，且优先于变量声明
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kd>function</span> <span class=nx>foo</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;hello&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 变量声明提升，但 foo 已经存在，忽略 var 定义
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=c1>// var foo = undefined;
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=c1>// 变量声明提升，函数表达式和其他变量赋值一致不提升
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>bar</span> <span class=o>=</span> <span class=kc>undefined</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1>// 执行阶段
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>foo</span><span class=p>);</span> <span class=c1>// [Function]
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>bar</span><span class=p>);</span> <span class=c1>// undefined
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>foo</span> <span class=o>=</span> <span class=s1>&#39;Hello&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>foo</span><span class=p>);</span> <span class=c1>// Hello
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>bar</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;world&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>test</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=闭包 class=headerLink><a href=#%e9%97%ad%e5%8c%85 class=header-mark></a>闭包</h3><p>闭包简单来说就是函数中的函数；闭包可以通过一个函数去访问原本在外层无法直接访问到的数据，并且保证数据不被回收。</p><h3 id=暂时性死区 class=headerLink><a href=#%e6%9a%82%e6%97%b6%e6%80%a7%e6%ad%bb%e5%8c%ba class=header-mark></a>暂时性死区</h3><p>和直接使用 <code>var</code> 定义不同，由于没有变量提升，<code>let</code>、<code>const</code> 定义的变量在声明之前使用会报错。</p><h2 id=event-loop-事件循环 class=headerLink><a href=#event-loop-%e4%ba%8b%e4%bb%b6%e5%be%aa%e7%8e%af class=header-mark></a>Event Loop 事件循环</h2><p>首先将事件分为宏任务与微任务：</p><ul><li>宏任务：主线 JS 代码、事件、<code>setTimeout</code> 和 <code>setInterval</code> 等</li><li>微任务：<code>process.nextTick</code> 和 <code>Promise</code> 回调等</li></ul><p>事件循环流程：</p><ul><li>首先执行主线同步任务</li><li>当遇到异步任务时将任务搁置一边独立执行，当异步任务有了结果将其放入对应的异步任务队列</li><li>主线同步任务执行完毕，检查微任务队列是否有内容，若有则一直执行至清空</li><li>进入下一轮循环，检查宏任务队列是否有内容，若有则一直执行至清空</li><li>继续执行主线同步任务</li></ul><p>代码例：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;Start&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>timer1</span> <span class=o>=</span> <span class=nx>setTimeout</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;Timer 1&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>},</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>promise1</span> <span class=o>=</span> <span class=k>new</span> <span class=nb>Promise</span><span class=p>((</span><span class=nx>resolve</span><span class=p>,</span> <span class=nx>reject</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;Promise 1&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=nx>resolve</span><span class=p>(</span><span class=s1>&#39;Promise 1 Fulfilled&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=nx>promise1</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>then</span><span class=p>((</span><span class=nx>val</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>val</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=s1>&#39;Promise 1 Then Fulfilled&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>})</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>then</span><span class=p>((</span><span class=nx>val</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>val</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>timer3</span> <span class=o>=</span> <span class=nx>setTimeout</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;Timer 3 in Promise 1&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>promise2</span> <span class=o>=</span> <span class=k>new</span> <span class=nb>Promise</span><span class=p>((</span><span class=nx>resolve</span><span class=p>,</span> <span class=nx>reject</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>timer2</span> <span class=o>=</span> <span class=nx>setTimeout</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;Timer 2 in Promise 2&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>resolve</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=nx>promise2</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>then</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;Promise 2 Then 1&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>})</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>then</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;Promise 2 Then 2&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>});</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;End&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/* 执行结果
+</span></span></span><span class=line><span class=cl><span class=cm> * Start
+</span></span></span><span class=line><span class=cl><span class=cm> * Promise 1
+</span></span></span><span class=line><span class=cl><span class=cm> * End
+</span></span></span><span class=line><span class=cl><span class=cm> * Promise 1 Fulfilled
+</span></span></span><span class=line><span class=cl><span class=cm> * Promise 1 Then Fulfilled
+</span></span></span><span class=line><span class=cl><span class=cm> * Timer 1
+</span></span></span><span class=line><span class=cl><span class=cm> * Timer 2 in Promise 2
+</span></span></span><span class=line><span class=cl><span class=cm> * Promise 2 Then 1
+</span></span></span><span class=line><span class=cl><span class=cm> * Promise 2 Then 2
+</span></span></span><span class=line><span class=cl><span class=cm> * Timer 3 in Promise 1
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span></code></pre></td></tr></table></div></div><p>解析：</p><ol><li>首先执行主线同步任务，输出 Start、Promise 1 和 End</li><li>此时宏任务队列中有 <code>timer1</code> 和 <code>timer2</code>；微任务队列中有 <code>promise1</code> 的第一个 <code>then</code></li><li>检查微任务队列，输出 Promise 1 Fulfilled 和 Promise 1 Then Fulfilled</li><li>此时宏任务队列中有 <code>timer1</code>、<code>timer2</code> 和 <code>timer3</code>；微任务队列中为空</li><li>下一轮循环，输出 Timer 1；微任务队列仍为空</li><li>下一轮循环，输出 Timer 2 in Promise 2；微任务队列中加入 <code>promise2</code> 的第一个 <code>then</code></li><li>优先微任务队列，输出 Promise 2 Then 1 和 Promise 2 Then 2</li><li>下一轮循环，输出 Timer 3 in Promise 1</li></ol><p>注意：在 Promise 同步构造函数中，在没有返回值的情况下，<code>resolve()</code> 后的代码依旧会被执行，只是无法再使用 <code>reject()</code> 改变该 Promise 的状态。</p><h2 id=map-与-weakmap class=headerLink><a href=#map-%e4%b8%8e-weakmap class=header-mark></a>Map 与 WeakMap</h2><ul><li>WeakMap 的 key 只接受使用对象</li><li>WeakMap 不支持迭代，<code>keys()</code> 等方法无法使用</li></ul><p>在 Map 中，若将某对象设置为 key，则后期将对该对象的直接引用置为 <code>null</code>，GC 不会回收，通过 <code>Map.keys()</code> 可以找到该对象；而在 WeakMap 中，该对象会被回收，但无法保证 GC 何时工作。</p><h2 id=遍历和迭代 class=headerLink><a href=#%e9%81%8d%e5%8e%86%e5%92%8c%e8%bf%ad%e4%bb%a3 class=header-mark></a>遍历和迭代</h2><p><code>for...in...</code>：</p><ul><li>遍历对象及其原型链上可枚举属性</li><li>遍历数组元素及自定义属性</li><li>返回 string 类型的 key</li></ul><p><code>Object.keys()</code>：</p><ul><li>遍历对象本身的可枚举属性</li><li>遍历数组元素及自定义属性</li><li>返回 string 类型的 key</li></ul><p><code>for...of...</code>：</p><ul><li>遍历任何可迭代对象 (普通对象不支持)</li><li>返回 any 类型的 value</li></ul><h2 id=promise class=headerLink><a href=#promise class=header-mark></a>Promise</h2><ul><li><code>Promise.all()</code>：所有成功则成功；任一失败则失败</li><li><code>Promise.any()</code>：任一成功则成功；所有失败则失败</li><li><code>Promise.race()</code>：任一成功则成功；任一失败则失败</li><li><code>Promise.allSettled()</code>：所有都成功或失败最后返回结果</li></ul><h2 id=this-指向绑定 class=headerLink><a href=#this-%e6%8c%87%e5%90%91%e7%bb%91%e5%ae%9a class=header-mark></a>This 指向绑定</h2><p>对于 <code>this</code> 指向在函数执行时才能确定，创建时无法确定。</p><p>对于一般函数，<code>this</code> 指向调用者：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>var</span> <span class=nx>x</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>obj</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>x</span><span class=o>:</span> <span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>say</span><span class=o>:</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=nx>obj</span><span class=p>.</span><span class=nx>say</span><span class=p>();</span> <span class=c1>// 2 (obj.x)
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>var</span> <span class=nx>x</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Obj</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>x</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>say</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl>  <span class=nx>say</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>obj</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Obj</span><span class=p>();</span> <span class=c1>// 1 (window.x)
+</span></span></span></code></pre></td></tr></table></div></div><p>对于箭头函数，<code>this</code> 指向其父级执行上下文：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>var</span> <span class=nx>x</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>obj</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>x</span><span class=o>:</span> <span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>say</span><span class=o>:</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=nx>obj</span><span class=p>.</span><span class=nx>say</span><span class=p>();</span> <span class=c1>// 1 (window.x)
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>var</span> <span class=nx>x</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Obj</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>x</span> <span class=o>=</span> <span class=mi>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>say</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl>  <span class=nx>say</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>obj</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Obj</span><span class=p>();</span> <span class=c1>// 2 (obj.x)
+</span></span></span></code></pre></td></tr></table></div></div><p><code>call</code>、<code>apply</code>、<code>bind</code> 都用于绑定 <code>this</code> 指向：</p><ul><li><code>call</code>：第一参数为 this 指向，剩余参数为参数列表，临时改变 this 并立即执行</li><li><code>apply</code>：第一参数为 this 指向，第二参数为参数数组，临时改变 this 并立即执行</li><li><code>bind</code>：第一参数为 this 指向，剩余参数为参数列表，返回 this 指向确定的函数，同时在调用返回的函数时还可以添加剩余参数</li></ul><h2 id=继承与原型链 class=headerLink><a href=#%e7%bb%a7%e6%89%bf%e4%b8%8e%e5%8e%9f%e5%9e%8b%e9%93%be class=header-mark></a>继承与原型链</h2><p>每个实例对象都有一个私有属性 <code>__proto__</code> 指向它的原型对象，该原型对象也有原型，一直到 <code>null</code> 为止。</p><ul><li><code>__proto__</code>：常见的浏览器原型链实现</li><li><code>getPrototypeOf()</code> 获取 <code>[[Prototype]]</code>：等价于 <code>__proto__</code></li><li><code>prototype</code> 函数才有，指向原型对象；原型对象也有 <code>constructor</code> 属性与之对应</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>function Dog            [[Prototype]]
+</span></span><span class=line><span class=cl>prototype     ==&gt;  &lt;==  constructor
+</span></span><span class=line><span class=cl>                        __proto__     ==&gt; Object.prototype
+</span></span><span class=line><span class=cl>dog1                     ^^               __proto__          ==&gt; null
+</span></span><span class=line><span class=cl>__proto__     ===========||
+</span></span></code></pre></td></tr></table></div></div><h3 id=模拟实现-new class=headerLink><a href=#%e6%a8%a1%e6%8b%9f%e5%ae%9e%e7%8e%b0-new class=header-mark></a>模拟实现 new</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>genInstance</span><span class=p>(</span><span class=nx>Constructor</span><span class=p>,</span> <span class=p>...</span><span class=nx>args</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// const obj = {};
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=c1>// obj.__proto__ = Constructor.prototype;
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>obj</span> <span class=o>=</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>create</span><span class=p>(</span><span class=nx>Constructor</span><span class=p>.</span><span class=nx>prototype</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>ret</span> <span class=o>=</span> <span class=nx>Constructor</span><span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=nx>obj</span><span class=p>,</span> <span class=p>...</span><span class=nx>args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=nx>ret</span> <span class=o>&amp;&amp;</span> <span class=k>typeof</span> <span class=nx>ret</span> <span class=o>===</span> <span class=s1>&#39;object&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>ret</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>obj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=原型链继承 class=headerLink><a href=#%e5%8e%9f%e5%9e%8b%e9%93%be%e7%bb%a7%e6%89%bf class=header-mark></a>原型链继承</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Parent</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>names</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>Parent</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>getNames</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>names</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Child</span><span class=p>()</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=nx>Child</span><span class=p>.</span><span class=nx>prototype</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Parent</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>child1</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Child</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>child2</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Child</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=nx>child1</span><span class=p>.</span><span class=nx>names</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=s1>&#39;1&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>child2</span><span class=p>.</span><span class=nx>getName</span><span class=p>());</span> <span class=c1>// [&#39;1&#39;]
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>引用类型的属性会被所有子实例共享</li><li>无法向 Parent 传参</li></ul><h3 id=组合继承 class=headerLink><a href=#%e7%bb%84%e5%90%88%e7%bb%a7%e6%89%bf class=header-mark></a>组合继承</h3><p>引入经典继承 (借用构造函数)：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Parent</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>names</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>Parent</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>getNames</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>names</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Child</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>Parent</span><span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=k>this</span><span class=p>,</span> <span class=nx>arguments</span><span class=p>);</span> <span class=c1>// 借用构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>Child</span><span class=p>.</span><span class=nx>prototype</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Parent</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=nx>Child</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>constructor</span> <span class=o>=</span> <span class=nx>Child</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>child1</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Child</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>child2</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Child</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=nx>child1</span><span class=p>.</span><span class=nx>names</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=s1>&#39;1&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>child2</span><span class=p>.</span><span class=nx>getName</span><span class=p>());</span> <span class=c1>// []
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>调用了两次父构造函数，导致 <code>Child.prototype</code> 和 <code>child1</code> 中有重复的 <code>names</code></li></ul><h3 id=寄生组合继承 class=headerLink><a href=#%e5%af%84%e7%94%9f%e7%bb%84%e5%90%88%e7%bb%a7%e6%89%bf class=header-mark></a>寄生组合继承</h3><p>引入寄生式继承 (使用父原型而不是父实例作为 <code>Child.prototype</code>)：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Parent</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>names</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>Parent</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>getNames</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>names</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>Child</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>Parent</span><span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=k>this</span><span class=p>,</span> <span class=nx>arguments</span><span class=p>);</span> <span class=c1>// 借用构造函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=nx>Child</span><span class=p>.</span><span class=nx>prototype</span> <span class=o>=</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>create</span><span class=p>(</span><span class=nx>Parent</span><span class=p>.</span><span class=nx>prototype</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>Child</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>constructor</span> <span class=o>=</span> <span class=nx>Child</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=dom-api class=headerLink><a href=#dom-api class=header-mark></a>DOM API</h2><h3 id=element-与-node class=headerLink><a href=#element-%e4%b8%8e-node class=header-mark></a>Element 与 Node</h3><ul><li>Node 是一个基类，DOM 中的 Element、Text 和 Comment 都继承于它</li><li>Node 包含了其内部的 Element 结点，除此之外还有直接插入的文本，注释等内容</li><li>NodeList 和 ElementCollcetion 都不是真正的数组</li></ul><h3 id=元素相关属性 class=headerLink><a href=#%e5%85%83%e7%b4%a0%e7%9b%b8%e5%85%b3%e5%b1%9e%e6%80%a7 class=header-mark></a>元素相关属性</h3><ul><li><code>clientHeight</code>：content + padding</li><li><code>offsetHeight</code>：content + padding + border + scrollbar</li><li><code>scrollHeight</code>：滚动部分总高度，包括当前不可见部分</li><li><code>scrollTop</code>：滚动部分顶端距离可见部分顶端的高度</li><li><code>offsetTop</code>：当前元素顶部距离最近父元素顶部的距离</li></ul><h3 id=事件冒泡和捕获 class=headerLink><a href=#%e4%ba%8b%e4%bb%b6%e5%86%92%e6%b3%a1%e5%92%8c%e6%8d%95%e8%8e%b7 class=header-mark></a>事件、冒泡和捕获</h3><p>事件传播的三个阶段：</p><ol><li>捕获阶段</li><li>目标阶段</li><li>冒泡阶段</li></ol><p>当一个事件发生在一个元素上，它会首先运行在该元素上的处理程序，然后运行其父元素上的处理程序，然后一直向上到其他祖先上的处理程序；几乎所有事件都会冒泡，但也有例如 <code>focus</code> 的事件不会冒泡。</p><ul><li><code>event.target</code>：是引发事件的目标元素，冒泡过程中不会发生变化</li><li><code>this</code>：当前元素，其中有一个当前正在运行的处理程序</li></ul><h2 id=esm-与-commonjs-模块 class=headerLink><a href=#esm-%e4%b8%8e-commonjs-%e6%a8%a1%e5%9d%97 class=header-mark></a>ESM 与 CommonJS 模块</h2><h3 id=加载与解析 class=headerLink><a href=#%e5%8a%a0%e8%bd%bd%e4%b8%8e%e8%a7%a3%e6%9e%90 class=header-mark></a>加载与解析</h3><p>CJS 模块同步加载，输出的是值的拷贝；对于基本类型，一旦输出，模块内部的变化影响不到这个值；对于引用类型，效果同引用类型的赋值操作；通过导出 getter 函数可以获取模块内部的变化；ES 模块是动态引用，并且不会缓存值。</p><p>由于 CJS 模块是同步的，因此可以放在代码段的任何位置；而 ESM 只是静态定义，在代码解析阶段就会被执行：<code>import</code> 会被提升到头部执行，<code>export</code> 与 <code>var</code> 定义的变量提升有类似的效果。</p><p>两种模块都不会重复执行。</p><h3 id=循环依赖 class=headerLink><a href=#%e5%be%aa%e7%8e%af%e4%be%9d%e8%b5%96 class=header-mark></a>循环依赖</h3><p>CJS 模块当遇到 <code>require()</code> 语句时，会执行模块中的代码，得到的是已经执行部分的结果。</p><h2 id=es6-新要素 class=headerLink><a href=#es6-%e6%96%b0%e8%a6%81%e7%b4%a0 class=header-mark></a>ES6+ 新要素</h2><ul><li><code>let</code> 和 <code>const</code></li><li>扩展运算符</li><li>箭头函数</li><li><code>class</code></li><li>Map 和 Set</li></ul><h3 id=箭头函数特性 class=headerLink><a href=#%e7%ae%ad%e5%a4%b4%e5%87%bd%e6%95%b0%e7%89%b9%e6%80%a7 class=header-mark></a>箭头函数特性</h3><ul><li>没有自己的 <code>this</code>，内部 <code>this</code> 指向父级执行上下文</li><li>无法作为构造函数，没有 <code>prototype</code> 属性</li><li>无法使用 <code>arguments</code>，需要 rest 参数</li><li>无法作为 generator 函数使用</li></ul><h2 id=es-标准流程 class=headerLink><a href=#es-%e6%a0%87%e5%87%86%e6%b5%81%e7%a8%8b class=header-mark></a>ES 标准流程</h2><ul><li><code>Stage 0</code>：开放提交，提议、想法</li><li><code>Stage 1</code>：正式建议，初步 demo 和标准</li><li><code>Stage 2</code>：草案，标准语言解释和实验性实现</li><li><code>Stage 3</code>：接近完成，等待测试、审核和用户反馈</li><li><code>Stage 4</code>：确认会被包含到将来的标准中</li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2019-07-17</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-source href=https://github.com/hzleii/hzleii.github.io/blog/content/posts/code/js/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/hzleii/hzleii.github.io/edit/blog/content/posts/code/js/index.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/language/>Language</a>,&nbsp;<a href=/tags/javascript/>JavaScript</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/js-insts/ class=prev rel=prev title="JS Insts"><i class="fas fa-angle-left fa-fw"></i>JS Insts</a>
+<a href=/front-end/ class=next rel=next title="Front End">Front End<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/>giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2019 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank rel="noopener noreferrer">磊子</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div id=cookieconsent-container></div><div class=assets><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.css><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:15},comment:{giscus:{darkTheme:"dark",dataCategory:"评论",dataCategoryId:"DIC_kwDOJUTMkM4CVoj8",dataEmitMetadata:"0",dataInputPosition:"bottom",dataLang:"en",dataMapping:"pathname",dataReactionsEnabled:"1",dataRepo:"hzleii/giscus",dataRepoId:"R_kgDOJUTMkA",dataStrict:"0",lightTheme:"light"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},table:{sort:!0}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/cookieconsent/cookieconsent.min.js defer></script><script type=text/javascript src=/js/cookieconsent.min.js defer></script><script type=text/javascript src=https://website-card-embed.humblex.top/website-card-embed-loveit.js></script><script type=text/javascript src=/js/theme.min.js defer></script><script type=text/javascript src=/js/giscus.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XXBC12BWSH",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-XXBC12BWSH" async></script></div></body></html>

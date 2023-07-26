@@ -1,0 +1,771 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>JS Insts - 磊子的菜园子</title><meta name=Description content="JavaScript 常见手写，包括防抖、节流、柯里、扁平、去重等各类手写。"><meta property="og:title" content="JS Insts"><meta property="og:description" content="JavaScript 常见手写，包括防抖、节流、柯里、扁平、去重等各类手写。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.humblex.top/js-insts/"><meta property="og:image" content="https://blog.humblex.top/images/avatar.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-07-17T00:00:00+00:00"><meta property="article:modified_time" content="2019-07-17T00:00:00+00:00"><meta property="og:site_name" content="磊子的菜园子"><meta property="og:see_also" content="https://blog.humblex.top/css/"><meta property="og:see_also" content="https://blog.humblex.top/front-end/"><meta property="og:see_also" content="https://blog.humblex.top/js/"><meta property="og:see_also" content="https://blog.humblex.top/react/"><meta property="og:see_also" content="https://blog.humblex.top/vuejs/"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.humblex.top/images/avatar.jpg"><meta name=twitter:title content="JS Insts"><meta name=twitter:description content="JavaScript 常见手写，包括防抖、节流、柯里、扁平、去重等各类手写。"><meta name=application-name content="hzlei"><meta name=apple-mobile-web-app-title content="hzlei"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://blog.humblex.top/js-insts/><link rel=prev href=https://blog.humblex.top/react/><link rel=next href=https://blog.humblex.top/js/><link rel=stylesheet href=/css/main.css><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/color.css><link rel=stylesheet href=/css/style.min.css><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.css><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.css></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.css><noscript><link rel=stylesheet href=/lib/animate/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"JS Insts","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.humblex.top\/js-insts\/"},"image":["https:\/\/blog.humblex.top\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Language, JavaScript","wordcount":1762,"url":"https:\/\/blog.humblex.top\/js-insts\/","datePublished":"2019-07-17T00:00:00+00:00","dateModified":"2019-07-17T00:00:00+00:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"hzlei","logo":"https:\/\/blog.humblex.top\/images\/avatar.jpg"},"author":{"@type":"Person","name":"磊子"},"description":"JavaScript 常见手写，包括防抖、节流、柯里、扁平、去重等各类手写。"}</script><script src=//instant.page/5.2.0 defer type=module integrity=sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=磊子的菜园子><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span>hzlei</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/hzleii title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=磊子的菜园子><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span>hzlei</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/hzleii title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#工具函数>工具函数</a><ul><li><a href=#防抖与节流>防抖与节流</a></li><li><a href=#柯里化>柯里化</a></li><li><a href=#扁平化>扁平化</a><ul><li><a href=#数组>数组</a></li><li><a href=#对象>对象</a></li></ul></li><li><a href=#去重>去重</a></li><li><a href=#深拷贝>深拷贝</a></li></ul></li><li><a href=#promise>Promise</a><ul><li><a href=#promise-构造函数>Promise 构造函数</a></li><li><a href=#polyfill-promiseall>Polyfill <code>Promise.all()</code></a></li><li><a href=#promise-并发限制>Promise 并发限制</a></li></ul></li><li><a href=#原生-api>原生 API</a><ul><li><a href=#bind><code>bind()</code></a></li><li><a href=#instanceof><code>instanceof</code></a></li><li><a href=#new><code>new</code></a></li><li><a href=#reduce-实现-map><code>reduce()</code> 实现 <code>map()</code></a></li></ul></li><li><a href=#语言特性>语言特性</a><ul><li><a href=#iterable-对象>Iterable 对象</a></li><li><a href=#lazyman-事件循环>LazyMan (事件循环)</a></li></ul></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">JS Insts</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=/ title=Author rel=author class=author>磊子</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/code/><i class="far fa-folder fa-fw"></i>code</a></span>&nbsp;<span class=post-category>和</span>&nbsp;<span class=post-series>系列 <a href=/series/weeb/><i class="far fa-list-alt fa-fw"></i>Weeb</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2019-07-17>2019-07-17</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2019-07-17>2019-07-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1762 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div></div><div class=featured-image><img loading=eager src=/js-insts/index.webp srcset="/js-insts/index.webp, /js-insts/index.webp 1.5x, /js-insts/index.webp 2x" sizes=auto alt="JavaScript 常见手写，包括防抖、节流、柯里、扁平、去重等各类手写。" title="JavaScript 常见手写，包括防抖、节流、柯里、扁平、去重等各类手写。" height=270 width=1200></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#工具函数>工具函数</a><ul><li><a href=#防抖与节流>防抖与节流</a></li><li><a href=#柯里化>柯里化</a></li><li><a href=#扁平化>扁平化</a><ul><li><a href=#数组>数组</a></li><li><a href=#对象>对象</a></li></ul></li><li><a href=#去重>去重</a></li><li><a href=#深拷贝>深拷贝</a></li></ul></li><li><a href=#promise>Promise</a><ul><li><a href=#promise-构造函数>Promise 构造函数</a></li><li><a href=#polyfill-promiseall>Polyfill <code>Promise.all()</code></a></li><li><a href=#promise-并发限制>Promise 并发限制</a></li></ul></li><li><a href=#原生-api>原生 API</a><ul><li><a href=#bind><code>bind()</code></a></li><li><a href=#instanceof><code>instanceof</code></a></li><li><a href=#new><code>new</code></a></li><li><a href=#reduce-实现-map><code>reduce()</code> 实现 <code>map()</code></a></li></ul></li><li><a href=#语言特性>语言特性</a><ul><li><a href=#iterable-对象>Iterable 对象</a></li><li><a href=#lazyman-事件循环>LazyMan (事件循环)</a></li></ul></li></ul></nav></div></div><div class=content id=content><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fwwarning"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>本文最后更新于 <span class=timeago datetime=2019-07-17T00:00:00 title="July 17, 2019">2019-07-17</span>，文中内容可能已过时。</div></div></div><h2 id=工具函数 class=headerLink><a href=#%e5%b7%a5%e5%85%b7%e5%87%bd%e6%95%b0 class=header-mark></a>工具函数</h2><h3 id=防抖与节流 class=headerLink><a href=#%e9%98%b2%e6%8a%96%e4%b8%8e%e8%8a%82%e6%b5%81 class=header-mark></a>防抖与节流</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-ts data-lang=ts><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * 防抖：仅执行一次
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>debounce</span> <span class=o>=</span> <span class=p>&lt;</span><span class=nt>F</span> <span class=na>extends</span> <span class=err>(</span><span class=na>...args</span><span class=err>:</span> <span class=na>any</span><span class=err>[])</span> <span class=err>=</span><span class=p>&gt;</span> <span class=kt>any</span><span class=o>&gt;</span><span class=p>(</span><span class=nx>func</span>: <span class=kt>F</span><span class=p>,</span> <span class=nx>delay</span> <span class=o>=</span> <span class=mi>300</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kd>let</span> <span class=nx>timer</span>: <span class=kt>number</span> <span class=o>|</span> <span class=kc>null</span> <span class=o>=</span> <span class=kc>null</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>ret</span> <span class=o>=</span> <span class=p>(...</span><span class=nx>args</span>: <span class=kt>any</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>timer</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nb>window</span><span class=p>.</span><span class=nx>clearTimeout</span><span class=p>(</span><span class=nx>timer</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>timer</span> <span class=o>=</span> <span class=nb>window</span><span class=p>.</span><span class=nx>setTimeout</span><span class=p>(()</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>func</span><span class=p>(...</span><span class=nx>args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=nx>timer</span> <span class=o>=</span> <span class=kc>null</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span> <span class=nx>delay</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>ret</span> <span class=kr>as</span> <span class=p>(...</span><span class=nx>args</span>: <span class=kt>Parameters</span><span class=p>&lt;</span><span class=nt>F</span><span class=p>&gt;)</span> <span class=o>=&gt;</span> <span class=k>void</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=nx>element</span><span class=p>.</span><span class=nx>onclick</span> <span class=o>=</span> <span class=nx>debounce</span><span class=p>(</span><span class=nx>myFunc</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * 节流：限制最小执行间隔
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>throttle</span> <span class=o>=</span> <span class=p>&lt;</span><span class=nt>F</span> <span class=na>extends</span> <span class=err>(</span><span class=na>...args</span><span class=err>:</span> <span class=na>any</span><span class=err>[])</span> <span class=err>=</span><span class=p>&gt;</span> <span class=kt>any</span><span class=o>&gt;</span><span class=p>(</span><span class=nx>func</span>: <span class=kt>F</span><span class=p>,</span> <span class=nx>delay</span> <span class=o>=</span> <span class=mi>300</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kd>let</span> <span class=nx>timer</span>: <span class=kt>number</span> <span class=o>|</span> <span class=kc>null</span> <span class=o>=</span> <span class=kc>null</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>ret</span> <span class=o>=</span> <span class=p>(...</span><span class=nx>args</span>: <span class=kt>any</span><span class=p>)</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>timer</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>timer</span> <span class=o>=</span> <span class=nb>window</span><span class=p>.</span><span class=nx>setTimeout</span><span class=p>(()</span> <span class=o>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>func</span><span class=p>(...</span><span class=nx>args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nx>timer</span> <span class=o>=</span> <span class=kc>null</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=p>},</span> <span class=nx>delay</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>ret</span> <span class=kr>as</span> <span class=p>(...</span><span class=nx>args</span>: <span class=kt>Parameters</span><span class=p>&lt;</span><span class=nt>F</span><span class=p>&gt;)</span> <span class=o>=&gt;</span> <span class=k>void</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=nb>window</span><span class=p>.</span><span class=nx>onresize</span> <span class=o>=</span> <span class=nx>throttle</span><span class=p>(</span><span class=nx>myFunc</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=柯里化 class=headerLink><a href=#%e6%9f%af%e9%87%8c%e5%8c%96 class=header-mark></a>柯里化</h3><p>将一个函数从可调用的 <code>f(a, b, c)</code> 转换为可调用的 <code>f(a)(b)(c)</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {Function} func
+</span></span></span><span class=line><span class=cl><span class=cm> * @return {Function}
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>curry</span><span class=p>(</span><span class=nx>func</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=kd>function</span> <span class=nx>curried</span><span class=p>(...</span><span class=nx>args</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>args</span><span class=p>.</span><span class=nx>length</span> <span class=o>&gt;=</span> <span class=nx>func</span><span class=p>.</span><span class=nx>length</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>func</span><span class=p>.</span><span class=nx>apply</span><span class=p>(</span><span class=k>this</span><span class=p>,</span> <span class=nx>args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=kd>function</span> <span class=p>(...</span><span class=nx>args2</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>curried</span><span class=p>.</span><span class=nx>apply</span><span class=p>(</span><span class=k>this</span><span class=p>,</span> <span class=p>[...</span><span class=nx>args</span><span class=p>,</span> <span class=p>...</span><span class=nx>args2</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>      <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=扁平化 class=headerLink><a href=#%e6%89%81%e5%b9%b3%e5%8c%96 class=header-mark></a>扁平化</h3><h4 id=数组 class=headerLink><a href=#%e6%95%b0%e7%bb%84 class=header-mark></a>数组</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=c1>// 标准递归
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>flatten</span><span class=p>(</span><span class=nx>arr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>arr</span><span class=p>.</span><span class=nx>reduce</span><span class=p>((</span><span class=nx>pre</span><span class=p>,</span> <span class=nx>cur</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>pre</span><span class=p>.</span><span class=nx>concat</span><span class=p>(</span><span class=nb>Array</span><span class=p>.</span><span class=nx>isArray</span><span class=p>(</span><span class=nx>cur</span><span class=p>)</span> <span class=o>?</span> <span class=nx>flatten</span><span class=p>(</span><span class=nx>cur</span><span class=p>)</span> <span class=o>:</span> <span class=nx>cur</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span> <span class=p>[]);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 字符串分割
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>flatten</span><span class=p>(</span><span class=nx>arr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nb>Array</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>toString</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=nx>arr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=nx>split</span><span class=p>(</span><span class=s1>&#39;,&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=nx>map</span><span class=p>((</span><span class=nx>val</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nb>Number</span><span class=p>(</span><span class=nx>val</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 重复扩展直至扁平
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>function</span> <span class=nx>flatten</span><span class=p>(</span><span class=nx>arr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>while</span> <span class=p>(</span><span class=nx>arr</span><span class=p>.</span><span class=nx>some</span><span class=p>((</span><span class=nx>val</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nb>Array</span><span class=p>.</span><span class=nx>isArray</span><span class=p>(</span><span class=nx>val</span><span class=p>)))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>arr</span> <span class=o>=</span> <span class=p>[...</span><span class=nx>arr</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>arr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=对象 class=headerLink><a href=#%e5%af%b9%e8%b1%a1 class=header-mark></a>对象</h4><p>输入：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>a</span><span class=o>:</span> <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>b</span><span class=o>:</span> <span class=p>[</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=p>{</span> <span class=nx>c</span><span class=o>:</span> <span class=kc>true</span> <span class=p>},</span> <span class=p>[</span><span class=mi>3</span><span class=p>]],</span>
+</span></span><span class=line><span class=cl>  <span class=nx>d</span><span class=o>:</span> <span class=p>{</span> <span class=nx>e</span><span class=o>:</span> <span class=mi>2</span><span class=p>,</span> <span class=nx>f</span><span class=o>:</span> <span class=mi>3</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=nx>g</span><span class=o>:</span> <span class=kc>null</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {Array} input
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {string} name
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {Object} res
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>_flatten</span><span class=p>(</span><span class=nx>input</span><span class=p>,</span> <span class=nx>name</span><span class=p>,</span> <span class=nx>res</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kd>let</span> <span class=nx>key</span> <span class=k>of</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>keys</span><span class=p>(</span><span class=nx>input</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>baseName</span> <span class=o>=</span> <span class=nx>name</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>val</span> <span class=o>=</span> <span class=nx>input</span><span class=p>[</span><span class=nx>key</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>val</span> <span class=o>===</span> <span class=kc>null</span> <span class=o>||</span> <span class=nx>val</span> <span class=o>===</span> <span class=kc>undefined</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>continue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=sr>/^[0-9]/</span><span class=p>.</span><span class=nx>exec</span><span class=p>(</span><span class=sb>`</span><span class=si>${</span><span class=nx>key</span><span class=si>}</span><span class=sb>`</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>baseName</span> <span class=o>+=</span> <span class=sb>`[</span><span class=si>${</span><span class=nx>key</span><span class=si>}</span><span class=sb>]`</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nx>baseName</span> <span class=o>===</span> <span class=s1>&#39;&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>baseName</span> <span class=o>+=</span> <span class=sb>`</span><span class=si>${</span><span class=nx>key</span><span class=si>}</span><span class=sb>`</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>baseName</span> <span class=o>+=</span> <span class=sb>`.</span><span class=si>${</span><span class=nx>key</span><span class=si>}</span><span class=sb>`</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=k>typeof</span> <span class=nx>val</span> <span class=o>===</span> <span class=s1>&#39;object&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>_flatten</span><span class=p>(</span><span class=nx>val</span><span class=p>,</span> <span class=nx>baseName</span><span class=p>,</span> <span class=nx>res</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>res</span><span class=p>[</span><span class=nx>baseName</span><span class=p>]</span> <span class=o>=</span> <span class=nx>val</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {Array} input
+</span></span></span><span class=line><span class=cl><span class=cm> * @return {Object}
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>flatten</span><span class=p>(</span><span class=nx>input</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>res</span> <span class=o>=</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl>  <span class=nx>_flatten</span><span class=p>(</span><span class=nx>input</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=nx>res</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>res</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=去重 class=headerLink><a href=#%e5%8e%bb%e9%87%8d class=header-mark></a>去重</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nb>Array</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>unique</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>arr</span> <span class=o>=</span> <span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>arr</span><span class=p>.</span><span class=nx>filter</span><span class=p>((</span><span class=nx>val</span><span class=p>,</span> <span class=nx>idx</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>arr</span><span class=p>.</span><span class=nx>indexOf</span><span class=p>(</span><span class=nx>val</span><span class=p>)</span> <span class=o>===</span> <span class=nx>idx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=深拷贝 class=headerLink><a href=#%e6%b7%b1%e6%8b%b7%e8%b4%9d class=header-mark></a>深拷贝</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=c1>// 可以通过 WeakMap 解决循环引用问题，同时保证内存被回收
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>map</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>WeakMap</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>cloneDeep</span><span class=p>(</span><span class=nx>src</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=nx>src</span> <span class=o>&amp;&amp;</span> <span class=k>typeof</span> <span class=nx>src</span> <span class=o>===</span> <span class=s1>&#39;object&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>map</span><span class=p>.</span><span class=nx>has</span><span class=p>(</span><span class=nx>src</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>map</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=nx>src</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>map</span><span class=p>.</span><span class=nx>set</span><span class=p>(</span><span class=nx>src</span><span class=p>,</span> <span class=nx>src</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>ret</span> <span class=o>=</span> <span class=nb>Array</span><span class=p>.</span><span class=nx>isArray</span><span class=p>(</span><span class=nx>src</span><span class=p>)</span> <span class=o>?</span> <span class=p>[]</span> <span class=o>:</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kd>let</span> <span class=nx>key</span> <span class=k>of</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>keys</span><span class=p>(</span><span class=nx>src</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>ret</span><span class=p>[</span><span class=nx>key</span><span class=p>]</span> <span class=o>=</span> <span class=nx>cloneDeep</span><span class=p>(</span><span class=nx>src</span><span class=p>[</span><span class=nx>key</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>ret</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>src</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=promise class=headerLink><a href=#promise class=header-mark></a>Promise</h2><h3 id=promise-构造函数 class=headerLink><a href=#promise-%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0 class=header-mark></a>Promise 构造函数</h3><p>Promises/A+ 标准中仅指定了 Promise 对象的 then 方法的行为，其它一切我们常见的方法、函数都并没有指定。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>class</span> <span class=nb>Promise</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>constructor</span><span class=p>(</span><span class=nx>func</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 初始化状态
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kr>const</span> <span class=nx>self</span> <span class=o>=</span> <span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>status</span> <span class=o>=</span> <span class=s1>&#39;pending&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>data</span> <span class=o>=</span> <span class=kc>undefined</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>onResolvedCallbacks</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>onRejectedCallbacks</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// API 函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kd>function</span> <span class=nx>resolve</span><span class=p>(</span><span class=nx>value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nx>self</span><span class=p>.</span><span class=nx>status</span> <span class=o>===</span> <span class=s1>&#39;pending&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=p>.</span><span class=nx>status</span> <span class=o>=</span> <span class=s1>&#39;resolved&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=p>.</span><span class=nx>data</span> <span class=o>=</span> <span class=nx>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=p>.</span><span class=nx>onResolvedCallbacks</span><span class=p>.</span><span class=nx>forEach</span><span class=p>((</span><span class=nx>func</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>func</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kd>function</span> <span class=nx>reject</span><span class=p>(</span><span class=nx>reason</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nx>self</span><span class=p>.</span><span class=nx>status</span> <span class=o>===</span> <span class=s1>&#39;pending&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=p>.</span><span class=nx>status</span> <span class=o>=</span> <span class=s1>&#39;rejected&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=p>.</span><span class=nx>data</span> <span class=o>=</span> <span class=nx>reason</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nx>self</span><span class=p>.</span><span class=nx>onRejectedCallbacks</span><span class=p>.</span><span class=nx>forEach</span><span class=p>((</span><span class=nx>func</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>func</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>      <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 执行同步构造器
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>func</span><span class=p>(</span><span class=nx>resolve</span><span class=p>,</span> <span class=nx>reject</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>reject</span><span class=p>(</span><span class=nx>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>then</span><span class=p>(</span><span class=nx>onResolved</span><span class=p>,</span> <span class=nx>onRejected</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 检查参数
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=k>typeof</span> <span class=nx>onResolved</span> <span class=o>!==</span> <span class=s1>&#39;function&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>onResolved</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=k>typeof</span> <span class=nx>onRejected</span> <span class=o>!==</span> <span class=s1>&#39;function&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>onRejected</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{};</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// resolve 或 reject 则执行对应回调
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>status</span> <span class=o>===</span> <span class=s1>&#39;resolved&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=k>new</span> <span class=nb>Promise</span><span class=p>((</span><span class=nx>resolve</span><span class=p>,</span> <span class=nx>reject</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>resolve</span><span class=p>(</span><span class=nx>onResolved</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>data</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>reject</span><span class=p>(</span><span class=nx>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>status</span> <span class=o>===</span> <span class=s1>&#39;rejected&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=k>new</span> <span class=nb>Promise</span><span class=p>((</span><span class=nx>resolve</span><span class=p>,</span> <span class=nx>reject</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>resolve</span><span class=p>(</span><span class=nx>onRejected</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>data</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>reject</span><span class=p>(</span><span class=nx>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>      <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// pending 状态则等待 pending 完成
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>status</span> <span class=o>===</span> <span class=s1>&#39;pending&#39;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=k>new</span> <span class=nb>Promise</span><span class=p>((</span><span class=nx>resolve</span><span class=p>,</span> <span class=nx>reject</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>this</span><span class=p>.</span><span class=nx>onResolvedCallbacks</span><span class=p>.</span><span class=nx>push</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>resolve</span><span class=p>(</span><span class=nx>onResolved</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>data</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>          <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reject</span><span class=p>(</span><span class=nx>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>          <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=k>this</span><span class=p>.</span><span class=nx>onRejectedCallbacks</span><span class=p>.</span><span class=nx>push</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=k>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>resolve</span><span class=p>(</span><span class=nx>onRejected</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>data</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>          <span class=p>}</span> <span class=k>catch</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>reject</span><span class=p>(</span><span class=nx>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>          <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>      <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=polyfill-promiseall class=headerLink><a href=#polyfill-promiseall class=header-mark></a>Polyfill <code>Promise.all()</code></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {Array} arr
+</span></span></span><span class=line><span class=cl><span class=cm> * @return {Promise&lt;any[]&gt;}
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>promiseAll</span><span class=p>(</span><span class=nx>arr</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=k>new</span> <span class=nb>Promise</span><span class=p>((</span><span class=nx>resolve</span><span class=p>,</span> <span class=nx>reject</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>pending</span> <span class=o>=</span> <span class=nx>arr</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>results</span> <span class=o>=</span> <span class=k>new</span> <span class=nb>Array</span><span class=p>(</span><span class=nx>arr</span><span class=p>.</span><span class=nx>length</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>arr</span><span class=p>.</span><span class=nx>forEach</span><span class=p>((</span><span class=nx>p</span><span class=p>,</span> <span class=nx>idx</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>p</span><span class=p>.</span><span class=nx>then</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=nx>res</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          <span class=nx>results</span><span class=p>[</span><span class=nx>idx</span><span class=p>]</span> <span class=o>=</span> <span class=nx>res</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>          <span class=k>if</span> <span class=p>(</span><span class=o>--</span><span class=nx>pending</span> <span class=o>===</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>resolve</span><span class=p>(</span><span class=nx>results</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>          <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>reject</span><span class=p>(</span><span class=nx>e</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=promise-并发限制 class=headerLink><a href=#promise-%e5%b9%b6%e5%8f%91%e9%99%90%e5%88%b6 class=header-mark></a>Promise 并发限制</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {number} limit
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {Array} arr
+</span></span></span><span class=line><span class=cl><span class=cm> * @param {Function} fetch
+</span></span></span><span class=line><span class=cl><span class=cm> * @return {Promise&lt;any[]&gt;}
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=kr>async</span> <span class=kd>function</span> <span class=nx>asyncPool</span><span class=p>(</span><span class=nx>limit</span><span class=p>,</span> <span class=nx>arr</span><span class=p>,</span> <span class=nx>fetch</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>pending</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>results</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl>  <span class=kd>let</span> <span class=nx>index</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=c1>// 入池用下标
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 入池一个
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>async</span> <span class=kd>function</span> <span class=nx>push</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 若已经全部进入池子则等待全部完成
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=nx>index</span> <span class=o>&gt;=</span> <span class=nx>arr</span><span class=p>.</span><span class=nx>length</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 获得一个 Promise
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kr>const</span> <span class=nx>p</span> <span class=o>=</span> <span class=nx>fetch</span><span class=p>(</span><span class=nx>arr</span><span class=p>[</span><span class=nx>index</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>pending</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>results</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Promise 完成后在 pending 中删除
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>p</span><span class=p>.</span><span class=nx>then</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=nx>pending</span><span class=p>.</span><span class=nx>splice</span><span class=p>(</span><span class=nx>pending</span><span class=p>.</span><span class=nx>indexOf</span><span class=p>(</span><span class=nx>p</span><span class=p>),</span> <span class=mi>1</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>pending</span><span class=p>.</span><span class=nx>length</span> <span class=o>&gt;=</span> <span class=nx>limit</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=kr>await</span> <span class=nb>Promise</span><span class=p>.</span><span class=nx>race</span><span class=p>(</span><span class=nx>pending</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>index</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>push</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kr>await</span> <span class=nx>push</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=kr>await</span> <span class=nb>Promise</span><span class=p>.</span><span class=nx>all</span><span class=p>(</span><span class=nx>results</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=原生-api class=headerLink><a href=#%e5%8e%9f%e7%94%9f-api class=header-mark></a>原生 API</h2><h3 id=bind class=headerLink><a href=#bind class=header-mark></a><code>bind()</code></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nb>Function</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>bind</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(...</span><span class=nx>args</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>func</span> <span class=o>=</span> <span class=k>this</span><span class=p>;</span> <span class=c1>// 需要绑定的函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>ctx</span> <span class=o>=</span> <span class=nx>args</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span> <span class=c1>// 绑定的 this
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>params</span> <span class=o>=</span> <span class=nx>args</span><span class=p>.</span><span class=nx>slice</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span> <span class=c1>// bind 时传入的参数
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=k>return</span> <span class=p>(...</span><span class=nx>args</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>func</span><span class=p>.</span><span class=nx>apply</span><span class=p>(</span><span class=nx>ctx</span><span class=p>,</span> <span class=p>[...</span><span class=nx>params</span><span class=p>,</span> <span class=p>...</span><span class=nx>args</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=instanceof class=headerLink><a href=#instanceof class=header-mark></a><code>instanceof</code></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>instanceOf</span><span class=p>(</span><span class=nx>inst</span><span class=p>,</span> <span class=nx>func</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kd>let</span> <span class=nx>proto</span> <span class=o>=</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>getPrototypeOf</span><span class=p>(</span><span class=nx>inst</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>while</span> <span class=p>(</span><span class=kc>true</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>proto</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=kc>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>proto</span> <span class=o>===</span> <span class=nx>func</span><span class=p>.</span><span class=nx>prototype</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=kc>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nx>proto</span> <span class=o>=</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>getPrototypeOf</span><span class=p>(</span><span class=nx>proto</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=new class=headerLink><a href=#new class=header-mark></a><code>new</code></h3><p><a href=/code/js/#%e6%a8%a1%e6%8b%9f%e5%ae%9e%e7%8e%b0-new rel>JavaScript - 模拟实现 new</a></p><h3 id=reduce-实现-map class=headerLink><a href=#reduce-%e5%ae%9e%e7%8e%b0-map class=header-mark></a><code>reduce()</code> 实现 <code>map()</code></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=nb>Array</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>mapPolyfill</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>func</span><span class=p>,</span> <span class=nx>thisValue</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>self</span> <span class=o>=</span> <span class=nx>thisValue</span> <span class=o>||</span> <span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=kr>const</span> <span class=nx>ret</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl>  <span class=k>this</span><span class=p>.</span><span class=nx>reduce</span><span class=p>((</span><span class=nx>pre</span><span class=p>,</span> <span class=nx>cur</span><span class=p>,</span> <span class=nx>idx</span><span class=p>,</span> <span class=nx>arr</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>ret</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>func</span><span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=nx>self</span><span class=p>,</span> <span class=nx>cur</span><span class=p>,</span> <span class=nx>idx</span><span class=p>,</span> <span class=nx>arr</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span> <span class=nx>ret</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>ret</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=语言特性 class=headerLink><a href=#%e8%af%ad%e8%a8%80%e7%89%b9%e6%80%a7 class=header-mark></a>语言特性</h2><h3 id=iterable-对象 class=headerLink><a href=#iterable-%e5%af%b9%e8%b1%a1 class=header-mark></a>Iterable 对象</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>object</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>a</span><span class=o>:</span> <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>b</span><span class=o>:</span> <span class=mi>2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>c</span><span class=o>:</span> <span class=mi>3</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 本质是一个 Generator 函数
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=o>*</span><span class=p>[</span><span class=nx>Symbol</span><span class=p>.</span><span class=nx>iterator</span><span class=p>]()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kr>const</span> <span class=nx>key</span> <span class=k>of</span> <span class=nb>Object</span><span class=p>.</span><span class=nx>keys</span><span class=p>(</span><span class=k>this</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>yield</span> <span class=k>this</span><span class=p>[</span><span class=nx>key</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(...</span><span class=nx>object</span><span class=p>);</span> <span class=c1>// 1 2 3
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>object</span><span class=p>.</span><span class=nx>d</span> <span class=o>=</span> <span class=mi>4</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(...</span><span class=nx>object</span><span class=p>);</span> <span class=c1>// 1 2 3 4
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=lazyman-事件循环 class=headerLink><a href=#lazyman-%e4%ba%8b%e4%bb%b6%e5%be%aa%e7%8e%af class=header-mark></a>LazyMan (事件循环)</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=k>new</span> <span class=nx>LazyMan</span><span class=p>(</span><span class=s1>&#39;Tony&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>eat</span><span class=p>(</span><span class=s1>&#39;lunch&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>eat</span><span class=p>(</span><span class=s1>&#39;dinner&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>sleepFirst</span><span class=p>(</span><span class=mi>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>sleep</span><span class=p>(</span><span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=nx>eat</span><span class=p>(</span><span class=s1>&#39;junk food&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// Hi I am Tony
+</span></span></span><span class=line><span class=cl><span class=c1>// 等待了5秒...
+</span></span></span><span class=line><span class=cl><span class=c1>// I am eating lunch
+</span></span></span><span class=line><span class=cl><span class=c1>// I am eating dinner
+</span></span></span><span class=line><span class=cl><span class=c1>// 等待了10秒...
+</span></span></span><span class=line><span class=cl><span class=c1>// I am eating junk food
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=kr>class</span> <span class=nx>LazyMan</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>constructor</span><span class=p>(</span><span class=nx>name</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>taskList</span> <span class=o>=</span> <span class=p>[];</span>
+</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=sb>`Hi I am </span><span class=si>${</span><span class=nx>name</span><span class=si>}</span><span class=sb>`</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 等待第一次事件循环
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// 即 tasklist 初始化完成
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>setTimeout</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=k>this</span><span class=p>.</span><span class=nx>next</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span> <span class=mi>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>next</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>func</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>taskList</span><span class=p>.</span><span class=nx>shift</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=nx>func</span> <span class=o>&amp;&amp;</span> <span class=nx>func</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>eat</span><span class=p>(</span><span class=nx>food</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>func</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=sb>`I am eating </span><span class=si>${</span><span class=nx>food</span><span class=si>}</span><span class=sb>`</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>      <span class=k>this</span><span class=p>.</span><span class=nx>next</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>taskList</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>func</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>sleepFirst</span><span class=p>(</span><span class=nx>time</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>func</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>setTimeout</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=sb>`等待了</span><span class=si>${</span><span class=nx>time</span><span class=si>}</span><span class=sb>秒...`</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>this</span><span class=p>.</span><span class=nx>next</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>      <span class=p>},</span> <span class=nx>time</span> <span class=o>*</span> <span class=mi>1000</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>taskList</span><span class=p>.</span><span class=nx>unshift</span><span class=p>(</span><span class=nx>func</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nx>sleep</span><span class=p>(</span><span class=nx>time</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>func</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>setTimeout</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=sb>`等待了</span><span class=si>${</span><span class=nx>time</span><span class=si>}</span><span class=sb>秒...`</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>this</span><span class=p>.</span><span class=nx>next</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>      <span class=p>},</span> <span class=nx>time</span> <span class=o>*</span> <span class=mi>1000</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>taskList</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>func</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=k>this</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2019-07-17</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-source href=https://github.com/hzleii/hzleii.github.io/blog/content/posts/code/js-insts/index.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/hzleii/hzleii.github.io/edit/blog/content/posts/code/js-insts/index.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/language/>Language</a>,&nbsp;<a href=/tags/javascript/>JavaScript</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/react/ class=prev rel=prev title=React><i class="fas fa-angle-left fa-fw"></i>React</a>
+<a href=/js/ class=next rel=next title=JavaScript>JavaScript<i class="fas fa-angle-right fa-fw"></i></a></div></div><div id=comments><div id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/>giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2019 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank rel="noopener noreferrer">磊子</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div id=cookieconsent-container></div><div class=assets><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.css><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:15},comment:{giscus:{darkTheme:"dark",dataCategory:"评论",dataCategoryId:"DIC_kwDOJUTMkM4CVoj8",dataEmitMetadata:"0",dataInputPosition:"bottom",dataLang:"en",dataMapping:"pathname",dataReactionsEnabled:"1",dataRepo:"hzleii/giscus",dataRepoId:"R_kgDOJUTMkA",dataStrict:"0",lightTheme:"light"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},table:{sort:!0}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/cookieconsent/cookieconsent.min.js defer></script><script type=text/javascript src=/js/cookieconsent.min.js defer></script><script type=text/javascript src=https://website-card-embed.humblex.top/website-card-embed-loveit.js></script><script type=text/javascript src=/js/theme.min.js defer></script><script type=text/javascript src=/js/giscus.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XXBC12BWSH",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-XXBC12BWSH" async></script></div></body></html>

@@ -1,0 +1,666 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Java8 Stream 流操作 - 磊子的菜园子</title><meta name=Description content="Java8 Stream 流操作"><meta property="og:title" content="Java8 Stream 流操作"><meta property="og:description" content="Java8 Stream 流操作"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.humblex.top/stream/"><meta property="og:image" content="https://blog.humblex.top/images/avatar.jpg"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-06-07T00:00:00+00:00"><meta property="article:modified_time" content="2022-06-07T00:00:00+00:00"><meta property="og:site_name" content="磊子的菜园子"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.humblex.top/images/avatar.jpg"><meta name=twitter:title content="Java8 Stream 流操作"><meta name=twitter:description content="Java8 Stream 流操作"><meta name=application-name content="hzlei"><meta name=apple-mobile-web-app-title content="hzlei"><meta name=theme-color content="#f8f8f8"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://blog.humblex.top/stream/><link rel=prev href=https://blog.humblex.top/oracle/><link rel=stylesheet href=/css/main.css><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/color.css><link rel=stylesheet href=/css/style.min.css><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.css><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.css></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.css><noscript><link rel=stylesheet href=/lib/animate/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Java8 Stream 流操作","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.humblex.top\/stream\/"},"image":["https:\/\/blog.humblex.top\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Stream","wordcount":5451,"url":"https:\/\/blog.humblex.top\/stream\/","datePublished":"2022-06-07T00:00:00+00:00","dateModified":"2022-06-07T00:00:00+00:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"hzlei","logo":"https:\/\/blog.humblex.top\/images\/avatar.jpg"},"author":{"@type":"Person","name":"磊子"},"description":"Java8 Stream 流操作"}</script><script src=//instant.page/5.2.0 defer type=module integrity=sha384-jnZyxPjiipYXnSU0ygqeac2q7CVYMbh84q0uHVRRxEtvFPiQYbXWUorga2aqZJ0z></script></head><body header-desktop=fixed header-mobile=auto><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark"),window.theme=e,window.isDark=window.theme!=="light"}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else"auto"==="light"||"auto"==="dark"||"auto"==="black"?(setTheme("auto"),saveTheme("auto")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")],window.switchThemeEventSet=new Set</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=磊子的菜园子><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span>hzlei</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/hzleii title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin"></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=磊子的菜园子><span class=header-title-pre><i class='far fa-edit fa-fw'></i></span>hzlei</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw"></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw"></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin"></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/hzleii title=GitHub rel="noopener noreferrer" target=_blank><i class='fab fa-github fa-fw'></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw"></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#什么是-stream>什么是 Stream</a><ul><li><a href=#特点>特点</a></li><li><a href=#三个步骤>三个步骤</a></li></ul></li><li><a href=#流的常用创建方法>流的常用创建方法</a></li><li><a href=#流的中间操作>流的中间操作</a><ul><li><a href=#筛选与切片>筛选与切片</a></li><li><a href=#映射>映射</a></li><li><a href=#排序>排序</a></li></ul></li><li><a href=#流的终止操作>流的终止操作</a><ul><li><a href=#匹配和查找>匹配和查找</a></li></ul></li><li><a href=#规范>规范</a></li><li><a href=#收集>收集</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Java8 Stream 流操作</h1><div class=post-meta><div class=post-meta-line><span class=post-author><span class="author fas fa-user-circle fa-fw"></span><a href=/ title=Author rel=author class=author>磊子</a>
+</span>&nbsp;<span class=post-category>收录于 </span>&nbsp;<span class=post-category>类别 <a href=/categories/java/><i class="far fa-folder fa-fw"></i>Java</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2022-06-07>2022-06-07</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2022-06-07>2022-06-07</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 5451 字&nbsp;<i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 11 分钟&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#什么是-stream>什么是 Stream</a><ul><li><a href=#特点>特点</a></li><li><a href=#三个步骤>三个步骤</a></li></ul></li><li><a href=#流的常用创建方法>流的常用创建方法</a></li><li><a href=#流的中间操作>流的中间操作</a><ul><li><a href=#筛选与切片>筛选与切片</a></li><li><a href=#映射>映射</a></li><li><a href=#排序>排序</a></li></ul></li><li><a href=#流的终止操作>流的终止操作</a><ul><li><a href=#匹配和查找>匹配和查找</a></li></ul></li><li><a href=#规范>规范</a></li><li><a href=#收集>收集</a></li></ul></nav></div></div><div class=content id=content><div class="details admonition warning open"><div class="details-summary admonition-title"><i class="icon fas fa-exclamation-triangle fa-fwwarning"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i></div><div class=details-content><div class=admonition-content>本文最后更新于 <span class=timeago datetime=2022-06-07T00:00:00 title="June 7, 2022">2022-06-07</span>，文中内容可能已过时。</div></div></div><h2 id=什么是-stream class=headerLink><a href=#%e4%bb%80%e4%b9%88%e6%98%af-stream class=header-mark></a>什么是 Stream</h2><p><code>Stream</code>翻译称为 “流”，是 Java8 的新特性之一。 <code>Stream</code>将要处理的元素看作是流，这时可以借助<code>Stream API</code>对流中的元素进行中间操作，比如：筛选、排序、排序等。</p><h3 id=特点 class=headerLink><a href=#%e7%89%b9%e7%82%b9 class=header-mark></a>特点</h3><ul><li>不是数据结构，不会保存数据，只会操作数据。</li><li>不会改变数据源，它会将操作后的数据保存到另外一个对象中。</li><li>延迟执行，流在中间处理过程中，只是对操作进行了记录，并不会立即执行，需要等到执行<strong>终止操作</strong>的时候才会进行实际的计算。</li></ul><h3 id=三个步骤 class=headerLink><a href=#%e4%b8%89%e4%b8%aa%e6%ad%a5%e9%aa%a4 class=header-mark></a>三个步骤</h3><ul><li>创建<code>Stream</code>: 从数据源中获取一个流，这个数据源可以是集合、数组。</li><li>中间操作：操作链，可以对流进行数据处理。</li><li>终止操作：执行终止操作，才会执行中间操作的操作链，终端操作结束后流无法再次使用，会产生一个新的结果。</li></ul><h2 id=流的常用创建方法 class=headerLink><a href=#%e6%b5%81%e7%9a%84%e5%b8%b8%e7%94%a8%e5%88%9b%e5%bb%ba%e6%96%b9%e6%b3%95 class=header-mark></a>流的常用创建方法</h2><ul><li>使用<code>Collection</code>系列集合提供的<code>stream()</code>和<code>parallelStream()</code>方法</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 使用Collection系列集合提供的 stream() 和 parallelStream() 方法
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>ArrayList</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=k>new</span> <span class=n>ArrayList</span><span class=o>&lt;&gt;();</span>
+</span></span><span class=line><span class=cl><span class=c1>// 返回一个顺序流
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Stream</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>stream</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=c1>// 把顺序流转换成并行流
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Stream</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>parallel</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>parallel</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=c1>// 返回一个并行流
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Stream</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>stringStream</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>parallelStream</span><span class=o>();</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>使用<code>Arrays</code>的静态方法<code>stream()</code>可以获取数组流</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl> <span class=n>String</span><span class=o>[]</span> <span class=n>strs</span> <span class=o>=</span> <span class=k>new</span> <span class=n>String</span><span class=o>[</span><span class=mi>10</span><span class=o>];</span>
+</span></span><span class=line><span class=cl> <span class=n>Stream</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>stream</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>stream</span><span class=o>(</span><span class=n>strs</span><span class=o>);</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>调用<code>Stream</code>类静态方法<code>of()</code></li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>Stream</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>stream</span> <span class=o>=</span> <span class=n>Stream</span><span class=o>.</span><span class=na>of</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;bbb&#34;</span><span class=o>,</span> <span class=s>&#34;c&#34;</span><span class=o>);</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>使用静态方法<code>Stream.iterate()</code>和<code>Stream.generate()</code>创建无限流</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 迭代
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Stream</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>iterate</span> <span class=o>=</span> <span class=n>Stream</span><span class=o>.</span><span class=na>iterate</span><span class=o>(</span><span class=mi>0</span><span class=o>,</span> <span class=o>(</span><span class=n>x</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>x</span> <span class=o>+</span> <span class=mi>2</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 0 2 4 6 8
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>iterate</span><span class=o>.</span><span class=na>limit</span><span class=o>(</span><span class=mi>5</span><span class=o>).</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 生成
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Stream</span><span class=o>&lt;</span><span class=n>Double</span><span class=o>&gt;</span> <span class=n>generate</span> <span class=o>=</span> <span class=n>Stream</span><span class=o>.</span><span class=na>generate</span><span class=o>(()</span> <span class=o>-&gt;</span> <span class=n>Math</span><span class=o>.</span><span class=na>random</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=c1>// 84 28 71
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>generate</span><span class=o>.</span><span class=na>limit</span><span class=o>(</span><span class=mi>3</span><span class=o>).</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>可以看到创建<code>Stream</code>流的方式有很多。但不论是哪种创建方式，<code>Stream</code>不会保存数据，它只会对数据进行计算。</p><h2 id=流的中间操作 class=headerLink><a href=#%e6%b5%81%e7%9a%84%e4%b8%ad%e9%97%b4%e6%93%8d%e4%bd%9c class=header-mark></a>流的中间操作</h2><p>中间操作可以分为两大类：</p><ul><li>有状态操作：需要等上一步操作完之后，拿到全部元素后才可操作，如 sorted</li><li>无状态操作：该操作的数据不受上一步操作的影响，如 filter map</li></ul><p>多个中间操作可以连接起来形成一个流水线，除非流水线上触发终止操作，不然中间操作不会执行任何处理！</p><h3 id=筛选与切片 class=headerLink><a href=#%e7%ad%9b%e9%80%89%e4%b8%8e%e5%88%87%e7%89%87 class=header-mark></a>筛选与切片</h3><table><thead><tr><th>方法</th><th>描述</th></tr></thead><tbody><tr><td><strong>filter(Predicate p)</strong></td><td>接收 <strong>Lambda</strong>，从流中排除某些元素</td></tr><tr><td><strong>distinct()</strong></td><td>筛选，通过流所产生的 <strong>hashCode()</strong> 和 <strong>equals()</strong> 去除重复元素</td></tr><tr><td><strong>limit(long maxSize)</strong></td><td>截断流，使其元素不超过给定数量</td></tr><tr><td><strong>skip(long n)</strong></td><td>跳过元素，返回一个扔掉了前 n 个元素的流，若流中元素不足 n 个，则返回一个空流，与 <strong>limit(n)</strong> 互补</td></tr></tbody></table><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 流的中间操作
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>integers</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=mi>1</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>3</span><span class=o>,</span> <span class=mi>4</span><span class=o>,</span> <span class=mi>5</span><span class=o>,</span> <span class=mi>6</span><span class=o>,</span> <span class=mi>7</span><span class=o>,</span> <span class=mi>8</span><span class=o>,</span> <span class=mi>9</span><span class=o>,</span> <span class=mi>10</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>5</span><span class=o>,</span> <span class=mi>7</span><span class=o>,</span> <span class=mi>9</span><span class=o>,</span> <span class=mi>17</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=cm>/**
+</span></span></span><span class=line><span class=cl><span class=cm> * 1.筛选与切片
+</span></span></span><span class=line><span class=cl><span class=cm> * filter：过滤流中的某些元素
+</span></span></span><span class=line><span class=cl><span class=cm> * limit(n)：获取 n 个元素
+</span></span></span><span class=line><span class=cl><span class=cm> * skip(n)：跳过 n 元素，若流中元素不足 n 个，则返回一个空流，配合 limit(n) 可实现分页
+</span></span></span><span class=line><span class=cl><span class=cm> * distinct：通过流中元素的 hashCode() 和 equals() 去除重复元素
+</span></span></span><span class=line><span class=cl><span class=cm> */</span>
+</span></span><span class=line><span class=cl><span class=c1>// 创建流
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Stream</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>stream</span> <span class=o>=</span> <span class=n>integers</span><span class=o>.</span><span class=na>stream</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=c1>// 中间操作
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Stream</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>integersStream</span> <span class=o>=</span> <span class=n>stream</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>filter</span><span class=o>((</span><span class=n>t</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>t</span> <span class=o>&gt;</span> <span class=mi>5</span><span class=o>)</span>   <span class=c1>// 6 7 8 9 10 7 9 17
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=o>.</span><span class=na>distinct</span><span class=o>()</span>  <span class=c1>// 6 7 8 9 10 17
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=o>.</span><span class=na>skip</span><span class=o>(</span><span class=mi>2</span><span class=o>)</span>   <span class=c1>// 8 9 10 17
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=o>.</span><span class=na>limit</span><span class=o>(</span><span class=mi>3</span><span class=o>);</span>  <span class=c1>//8 9 10
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>integersStream</span><span class=o>.</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=映射 class=headerLink><a href=#%e6%98%a0%e5%b0%84 class=header-mark></a>映射</h3><table><thead><tr><th>方法</th><th>描述</th></tr></thead><tbody><tr><td><strong>map(Function f)</strong></td><td>接收一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素</td></tr><tr><td><strong>mapToDouble(ToDoubleFunction f)</strong></td><td>接收一个函数作为参数，该函数会被应用到每个元素上，产生一个新的 DoubleStream</td></tr><tr><td><strong>mapToInt(ToIntFunction f)</strong></td><td>接收一个函数作为参数，该函数会被应用到每个元素上，产生一个新的 IntStream</td></tr><tr><td><strong>mapToLong(ToLongFunction f)</strong></td><td>接收一个函数作为参数，该函数会被应用到每个元素上，产生一个新的 LongStream</td></tr><tr><td><strong>flatMap(Function f)</strong></td><td>接收一个函数作为参数，将流中的每个值都换成另一个流，然后把所有流连成一个流</td></tr></tbody></table><ul><li>map</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 将每个元素转换为大写
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;a,a=&#34;</span><span class=o>,</span> <span class=s>&#34;b,b=&#34;</span><span class=o>,</span> <span class=s>&#34;cc=&#34;</span><span class=o>,</span> <span class=s>&#34;d,d=&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>collect</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>map</span><span class=o>(</span><span class=n>String</span><span class=o>::</span><span class=n>toUpperCase</span><span class=o>).</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>toList</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=c1>// str -&gt; str.toUpperCase() 可以简写为 String::toUpperCase
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>collect</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 结果：[A,A=, B,B=, CC=, D,D=]
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>23</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>24</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>25</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>26</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>27</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 提取员工名称
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>collect1</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// 类::实例方法名
+</span></span></span><span class=line><span class=cl><span class=c1></span>        <span class=o>.</span><span class=na>map</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getName</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>toList</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>collect1</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：[张三, 李四, 王五, 赵六, 周七]
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>mapToInt</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;a,a&#34;</span><span class=o>,</span> <span class=s>&#34;b,b&#34;</span><span class=o>,</span> <span class=s>&#34;cc&#34;</span><span class=o>,</span> <span class=s>&#34;d,d&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>IntStream</span> <span class=n>intStream</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>mapToInt</span><span class=o>(</span><span class=n>String</span><span class=o>::</span><span class=n>length</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>intStream</span><span class=o>.</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 3
+</span></span></span><span class=line><span class=cl><span class=c1>// 3
+</span></span></span><span class=line><span class=cl><span class=c1>// 2
+</span></span></span><span class=line><span class=cl><span class=c1>// 3
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>flatMap</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;a,a=&#34;</span><span class=o>,</span><span class=s>&#34;b,b=&#34;</span><span class=o>,</span><span class=s>&#34;cc=&#34;</span><span class=o>,</span><span class=s>&#34;d,d=&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Stream</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>stringStream</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>flatMap</span><span class=o>(</span><span class=n>str</span> <span class=o>-&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>String</span><span class=o>[]</span> <span class=n>split</span> <span class=o>=</span> <span class=n>str</span><span class=o>.</span><span class=na>split</span><span class=o>(</span><span class=s>&#34;,&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>Stream</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>stream</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>stream</span><span class=o>(</span><span class=n>split</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>stream</span><span class=o>;</span>
+</span></span><span class=line><span class=cl>        <span class=o>});</span>
+</span></span><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>collect</span> <span class=o>=</span> <span class=n>stringStream</span><span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>toList</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>collect</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// [a, a=, b, b=, cc=, d, d=]
+</span></span></span></code></pre></td></tr></table></div></div><h3 id=排序 class=headerLink><a href=#%e6%8e%92%e5%ba%8f class=header-mark></a>排序</h3><table><thead><tr><th>方法</th><th>描述</th></tr></thead><tbody><tr><td><strong>sorted()</strong></td><td>产生一个新的流，其中按自然顺序排序</td></tr><tr><td><strong>sorted(Comparator com)</strong></td><td>产生一个新的流，其中按比较器顺序排序</td></tr></tbody></table><ul><li>sorted</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;bb&#34;</span><span class=o>,</span> <span class=s>&#34;cc&#34;</span><span class=o>,</span> <span class=s>&#34;ee&#34;</span><span class=o>,</span> <span class=s>&#34;aa&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>sorted</span><span class=o>().</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// aa
+</span></span></span><span class=line><span class=cl><span class=c1>// bb
+</span></span></span><span class=line><span class=cl><span class=c1>// cc
+</span></span></span><span class=line><span class=cl><span class=c1>// dd
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>sorted(Comparator com)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>38</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>50</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>15</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 如果年龄一致，就按照姓名排序，如果不一致，就按照年龄升序排序
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>sorted</span><span class=o>((</span><span class=n>e1</span><span class=o>,</span> <span class=n>e2</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=o>(</span><span class=n>e1</span><span class=o>.</span><span class=na>getAge</span><span class=o>().</span><span class=na>equals</span><span class=o>(</span><span class=n>e2</span><span class=o>.</span><span class=na>getAge</span><span class=o>()))</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>e1</span><span class=o>.</span><span class=na>getName</span><span class=o>().</span><span class=na>compareTo</span><span class=o>(</span><span class=n>e2</span><span class=o>.</span><span class=na>getName</span><span class=o>());</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span> <span class=k>else</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>e1</span><span class=o>.</span><span class=na>getAge</span><span class=o>().</span><span class=na>compareTo</span><span class=o>(</span><span class=n>e2</span><span class=o>.</span><span class=na>getAge</span><span class=o>());</span>
+</span></span><span class=line><span class=cl>    <span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=o>}).</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// name=&#39;赵六&#39;, age=15, salary=3333.33
+</span></span></span><span class=line><span class=cl><span class=c1>// name=&#39;张三&#39;, age=18, salary=9999.99
+</span></span></span><span class=line><span class=cl><span class=c1>// name=&#39;周七&#39;, age=18, salary=7777.77
+</span></span></span><span class=line><span class=cl><span class=c1>// name=&#39;李四&#39;, age=38, salary=5555.55
+</span></span></span><span class=line><span class=cl><span class=c1>// name=&#39;王五&#39;, age=50, salary=6666.66
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=流的终止操作 class=headerLink><a href=#%e6%b5%81%e7%9a%84%e7%bb%88%e6%ad%a2%e6%93%8d%e4%bd%9c class=header-mark></a>流的终止操作</h2><ul><li><p>终端操作会从流水线中产生结果。其结果可以是任何不是流的值，例如：List、Integer、String</p></li><li><p>流进行了终止操作后，不能再次使用。</p></li></ul><h3 id=匹配和查找 class=headerLink><a href=#%e5%8c%b9%e9%85%8d%e5%92%8c%e6%9f%a5%e6%89%be class=header-mark></a>匹配和查找</h3><table><thead><tr><th>方法</th><th>描述</th></tr></thead><tbody><tr><td><strong>allMatch(Predicate p)</strong></td><td>检查是否匹配所有元素</td></tr><tr><td><strong>anyMatch(Predicate p)</strong></td><td>检查是否至少匹配一个元素</td></tr><tr><td><strong>noneMatch(Predicate p)</strong></td><td>检查是否没有匹配所有元素</td></tr><tr><td><strong>findFirst()</strong></td><td>返回第一个元素</td></tr><tr><td><strong>findAny()</strong></td><td>返回当前流中的任意元素</td></tr><tr><td><strong>count()</strong></td><td>返回流中元素总数</td></tr><tr><td><strong>max(Comparator c)</strong></td><td>返回流中最大值</td></tr><tr><td><strong>min(Comparator c)</strong></td><td>返回流中最小值</td></tr><tr><td><strong>forEach(Consumer c)</strong></td><td>内部迭代(使用 <code>Collection</code> 接口需要用户去做迭代，称为外部迭代)。</td></tr></tbody></table><ul><li>allMatch</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 判断数据流中所有元素是否与 aa 相等，全部相等则返回true
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;bb&#34;</span><span class=o>,</span> <span class=s>&#34;cc&#34;</span><span class=o>,</span> <span class=s>&#34;dd&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=kt>boolean</span> <span class=n>aa</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>allMatch</span><span class=o>(</span><span class=n>s</span> <span class=o>-&gt;</span> <span class=n>s</span><span class=o>.</span><span class=na>equals</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>aa</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// false
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;aa&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=kt>boolean</span> <span class=n>aa</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>allMatch</span><span class=o>(</span><span class=n>s</span> <span class=o>-&gt;</span> <span class=n>s</span><span class=o>.</span><span class=na>equals</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>aa</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// true
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>anyMatch</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 判断数据流中所有元素是否有一个与 aa 相等，相等则返回 true
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;bb&#34;</span><span class=o>,</span> <span class=s>&#34;cc&#34;</span><span class=o>,</span> <span class=s>&#34;dd&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=kt>boolean</span> <span class=n>aa</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>anyMatch</span><span class=o>(</span><span class=n>obj</span> <span class=o>-&gt;</span> <span class=n>obj</span><span class=o>.</span><span class=na>equals</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>aa</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// true
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>noneMatch</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 判断数据流中所有元素是否全部与 aa1 相等，一个都没有匹配成功则返回 true。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;bb&#34;</span><span class=o>,</span> <span class=s>&#34;cc&#34;</span><span class=o>,</span> <span class=s>&#34;dd&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=kt>boolean</span> <span class=n>aa</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>noneMatch</span><span class=o>(</span><span class=n>obj</span> <span class=o>-&gt;</span> <span class=n>obj</span><span class=o>.</span><span class=na>equals</span><span class=o>(</span><span class=s>&#34;aa1&#34;</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>aa</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// true
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>findFirst</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 返回第一个元素
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;bb&#34;</span><span class=o>,</span> <span class=s>&#34;cc&#34;</span><span class=o>,</span> <span class=s>&#34;dd&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Optional</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>first</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>findFirst</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>first</span><span class=o>.</span><span class=na>get</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// aa
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>findAny</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 返回当前流中的任意元素
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;bb&#34;</span><span class=o>,</span> <span class=s>&#34;cc&#34;</span><span class=o>,</span> <span class=s>&#34;dd&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Optional</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>first</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>findAny</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>first</span><span class=o>.</span><span class=na>get</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// aa
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// 由于是顺序流所以每次返回的都是第一个元素。使用并行流：
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=s>&#34;aa&#34;</span><span class=o>,</span> <span class=s>&#34;bb&#34;</span><span class=o>,</span> <span class=s>&#34;cc&#34;</span><span class=o>,</span> <span class=s>&#34;dd&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Optional</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>first</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>parallelStream</span><span class=o>().</span><span class=na>findAny</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>first</span><span class=o>.</span><span class=na>get</span><span class=o>());</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>count</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=mi>1</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>3</span><span class=o>,</span> <span class=mi>4</span><span class=o>,</span> <span class=mi>5</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=kt>long</span> <span class=n>count</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>count</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>count</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 5
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>max(Comparator c)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=mi>1</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>3</span><span class=o>,</span> <span class=mi>4</span><span class=o>,</span> <span class=mi>5</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Optional</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>max</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>max</span><span class=o>(</span><span class=n>Integer</span><span class=o>::</span><span class=n>compareTo</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>max</span><span class=o>.</span><span class=na>get</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 5
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>min(Comparator c)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=mi>1</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>3</span><span class=o>,</span> <span class=mi>4</span><span class=o>,</span> <span class=mi>5</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Optional</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>max</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>min</span><span class=o>(</span><span class=n>Integer</span><span class=o>::</span><span class=n>compareTo</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>max</span><span class=o>.</span><span class=na>get</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 1
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>forEach(Consumer c)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=mi>1</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>3</span><span class=o>,</span> <span class=mi>4</span><span class=o>,</span> <span class=mi>5</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>list</span><span class=o>.</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 1
+</span></span></span><span class=line><span class=cl><span class=c1>// 2
+</span></span></span><span class=line><span class=cl><span class=c1>// 3
+</span></span></span><span class=line><span class=cl><span class=c1>// 4
+</span></span></span><span class=line><span class=cl><span class=c1>// 5
+</span></span></span></code></pre></td></tr></table></div></div><h2 id=规范 class=headerLink><a href=#%e8%a7%84%e8%8c%83 class=header-mark></a>规范</h2><table><thead><tr><th style=text-align:left>方法</th><th>描述</th></tr></thead><tbody><tr><td style=text-align:left><strong>T reduce(T i, BinaryOperator&lt;T> a)</strong></td><td>可以将流中元素反复结合起来，得到一个值。返回 T</td></tr><tr><td style=text-align:left><strong>Optional&lt;T> reduce(BinaryOperator&lt;T> a)</strong></td><td>可以将流中元素反复结合起来，得到一个值，返回<code>Optional&lt;T></code></td></tr></tbody></table><ul><li>T reduce(T i, BinaryOperator&lt;T> a)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=mi>1</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>3</span><span class=o>,</span> <span class=mi>4</span><span class=o>,</span> <span class=mi>5</span><span class=o>,</span> <span class=mi>6</span><span class=o>,</span> <span class=mi>7</span><span class=o>,</span> <span class=mi>8</span><span class=o>,</span> <span class=mi>9</span><span class=o>,</span> <span class=mi>10</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Integer</span> <span class=n>reduce</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>reduce</span><span class=o>(</span><span class=mi>0</span><span class=o>,</span> <span class=o>(</span><span class=n>x1</span><span class=o>,</span> <span class=n>x2</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>x1</span> <span class=o>+</span> <span class=n>x2</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>reduce</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 55
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=c1>// 第一个参数是起始值，如果起始值为10呢？
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=mi>1</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>3</span><span class=o>,</span> <span class=mi>4</span><span class=o>,</span> <span class=mi>5</span><span class=o>,</span> <span class=mi>6</span><span class=o>,</span> <span class=mi>7</span><span class=o>,</span> <span class=mi>8</span><span class=o>,</span> <span class=mi>9</span><span class=o>,</span> <span class=mi>10</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Integer</span> <span class=n>reduce</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>reduce</span><span class=o>(</span><span class=mi>10</span><span class=o>,</span> <span class=o>(</span><span class=n>x1</span><span class=o>,</span> <span class=n>x2</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>x1</span> <span class=o>+</span> <span class=n>x2</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>reduce</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 65
+</span></span></span></code></pre></td></tr></table></div></div><p>第一次执行时，会将 <code>i</code>(也就是 10 ) 的值作为 <code>a</code> 函数的第一个参数，第二个参数为流中元素的第一个元素；第二次执行时，第一个参数为第一次函数执行的结果，第二个参数为流中的第二个元素；依次类推。</p><ul><li>Optional&lt;T> reduce(BinaryOperator&lt;T> a)</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>list</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span><span class=mi>1</span><span class=o>,</span> <span class=mi>2</span><span class=o>,</span> <span class=mi>3</span><span class=o>,</span> <span class=mi>4</span><span class=o>,</span> <span class=mi>5</span><span class=o>,</span> <span class=mi>6</span><span class=o>,</span> <span class=mi>7</span><span class=o>,</span> <span class=mi>8</span><span class=o>,</span> <span class=mi>9</span><span class=o>,</span> <span class=mi>10</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>Optional</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>&gt;</span> <span class=n>reduce</span> <span class=o>=</span> <span class=n>list</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>reduce</span><span class=o>(</span><span class=n>Integer</span><span class=o>::</span><span class=n>sum</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>reduce</span><span class=o>.</span><span class=na>get</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 55
+</span></span></span></code></pre></td></tr></table></div></div><p>流程与第一个方法是一致的，只是第一次执行时，第一个参数为流中的第一个元素，第二个参数为流中元素的第二个元素。</p><h2 id=收集 class=headerLink><a href=#%e6%94%b6%e9%9b%86 class=header-mark></a>收集</h2><table><thead><tr><th>方法</th><th>描述</th></tr></thead><tbody><tr><td><strong>collect(Collector c)</strong></td><td>将流转换为其他形式。接收一个<code>Collector</code>接口的实现，用于给<code>Stream</code>中元素做汇总的方法</td></tr></tbody></table><p><code>Collector</code> 接口中方法的实现决定了如何对流执行收集的操作(如收集到 List、Set、Map中)。 另外， <code>Collectors</code> 类提供了很多静态方法，可以方便地创建常见收集器实例，具体方法与实例如下表：</p><table><thead><tr><th>方法</th><th>返回类型</th><th>作用</th></tr></thead><tbody><tr><td><strong>toList</strong></td><td>List&lt;T></td><td>把流中元素收集到<code>List</code></td></tr><tr><td><strong>toSet</strong></td><td>Set&lt;T></td><td>把流中元素收集到<code>Set</code></td></tr><tr><td><strong>toCollection</strong></td><td>Collection&lt;T></td><td>把流中元素收集到创建的集合</td></tr><tr><td><strong>counting</strong></td><td>Long</td><td>计算流中元素的个数</td></tr><tr><td><strong>summingInt</strong></td><td>Integer</td><td>对流中元素的整数属性求和</td></tr><tr><td><strong>averagingInt</strong></td><td>Double</td><td>计算流中元素<code>Integer</code>属性的平均值</td></tr><tr><td><strong>summarizingInt</strong></td><td>IntSummaryStatistics</td><td>收集流中<code>Integer</code>属性的统计值，如：平均值</td></tr><tr><td><strong>joining</strong></td><td>String</td><td>连接流中每个字符串</td></tr><tr><td><strong>maxBy</strong></td><td>Optional&lt;T></td><td>根据比较器选择最大值</td></tr><tr><td><strong>minBy</strong></td><td>Optional&lt;T></td><td>根据比较器选择最小值</td></tr><tr><td><strong>reducing</strong></td><td>归约产生的类型</td><td>从一个作为累加器的初始值开始，利用<code>BinaryOperator</code>与流中元素逐个结合，从而归约成单个值</td></tr><tr><td><strong>collectingAndThen</strong></td><td>转换函数返回的类型</td><td>包裹另一个收集器，对其结果转换函数</td></tr><tr><td><strong>groupingBy</strong></td><td>Map&lt;K, List&lt;T&#187;</td><td>根据某属性对流进行分组，属性为K，结果为V</td></tr><tr><td><strong>partitioningBy</strong></td><td>Map&lt;Boolean, List&lt;T&#187;</td><td>根据<code>true</code>或<code>false</code>进行分区</td></tr></tbody></table><ul><li>toList</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 获取到员工的姓名并放入 List 集合中
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>38</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>50</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>15</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>List</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>collect</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>map</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getName</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>toList</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=n>collect</span><span class=o>.</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 张三
+</span></span></span><span class=line><span class=cl><span class=c1>// 李四
+</span></span></span><span class=line><span class=cl><span class=c1>// 王五
+</span></span></span><span class=line><span class=cl><span class=c1>// 赵六
+</span></span></span><span class=line><span class=cl><span class=c1>// 周七
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>toCollection</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 获取到员工的姓名并放入 HashSet 集合中
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>38</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>50</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>15</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>HashSet</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>hs</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>map</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getName</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>toCollection</span><span class=o>(</span><span class=n>HashSet</span><span class=o>::</span><span class=k>new</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>hs</span><span class=o>.</span><span class=na>forEach</span><span class=o>(</span><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>::</span><span class=n>println</span><span class=o>);</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>counting、summingDouble、averagingDouble、maxBy</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 分别为：计数、求和、平均值、最值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>38</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>50</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>15</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 元素的个数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Long</span> <span class=n>l</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>map</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getName</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>counting</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;个数：&#34;</span> <span class=o>+</span> <span class=n>l</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 求和
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Double</span> <span class=n>sum</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>summingDouble</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getAge</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;求和：&#34;</span> <span class=o>+</span> <span class=n>sum</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 平均值
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Double</span> <span class=n>avg</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>averagingDouble</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getAge</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;平均值：&#34;</span> <span class=o>+</span> <span class=n>avg</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=c1>// 获得年龄最大的员工信息
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>Optional</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>collect</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>maxBy</span><span class=o>((</span><span class=n>e1</span><span class=o>,</span> <span class=n>e2</span><span class=o>)</span> <span class=o>-&gt;</span> <span class=n>Integer</span><span class=o>.</span><span class=na>compare</span><span class=o>(</span><span class=n>e1</span><span class=o>.</span><span class=na>getAge</span><span class=o>(),</span> <span class=n>e2</span><span class=o>.</span><span class=na>getAge</span><span class=o>())));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;获得年龄最大的员工信息：&#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>.</span><span class=na>get</span><span class=o>());</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 个数：5
+</span></span></span><span class=line><span class=cl><span class=c1>// 求和：139.0
+</span></span></span><span class=line><span class=cl><span class=c1>// 平均值：27.8
+</span></span></span><span class=line><span class=cl><span class=c1>// 获得年龄最大的员工信息：name=&#39;王五&#39;, age=50, salary=6666.66
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>summarizingInt</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 收集流中 Integer 属性的统计值。
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>38</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>50</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>15</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=n>IntSummaryStatistics</span> <span class=n>collect</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>summarizingInt</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getAge</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;个数：&#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>.</span><span class=na>getCount</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;求和：&#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>.</span><span class=na>getSum</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;最大值：&#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>.</span><span class=na>getMax</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;平均值：&#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>.</span><span class=na>getAverage</span><span class=o>());</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;最小值：&#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>.</span><span class=na>getMin</span><span class=o>());</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// 个数：5
+</span></span></span><span class=line><span class=cl><span class=c1>// 求和：139
+</span></span></span><span class=line><span class=cl><span class=c1>// 最大值：50
+</span></span></span><span class=line><span class=cl><span class=c1>// 平均值：27.8
+</span></span></span><span class=line><span class=cl><span class=c1>// 最小值：15
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>groupingBy</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 根据年龄进行分组
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>38</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>50</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>15</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Map</span><span class=o>&lt;</span><span class=n>Integer</span><span class=o>,</span> <span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;&gt;</span> <span class=n>collect</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>groupingBy</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getAge</span><span class=o>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=o>(</span><span class=n>Integer</span> <span class=n>key</span> <span class=o>:</span> <span class=n>collect</span><span class=o>.</span><span class=na>keySet</span><span class=o>()){</span>
+</span></span><span class=line><span class=cl>    <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;key: &#34;</span> <span class=o>+</span> <span class=n>key</span> <span class=o>+</span> <span class=s>&#34;, value: &#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>.</span><span class=na>get</span><span class=o>(</span><span class=n>key</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// key: 50, value: [Employee(name=王五, age=50, salary=6666.66)]
+</span></span></span><span class=line><span class=cl><span class=c1>// key: 18, value: [Employee(name=张三, age=18, salary=9999.99), Employee(name=周七, age=18, salary=7777.77)]
+</span></span></span><span class=line><span class=cl><span class=c1>// key: 38, value: [Employee(name=李四, age=38, salary=5555.55)]
+</span></span></span><span class=line><span class=cl><span class=c1>// key: 15, value: [Employee(name=赵六, age=15, salary=3333.33)]
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>partitioningBy：将 stream 按条件分为两个 Map，true或false</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 薪资是否大于7000
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>38</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>50</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>15</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Map</span><span class=o>&lt;</span><span class=n>Boolean</span><span class=o>,</span> <span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;&gt;</span> <span class=n>collect</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>().</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>partitioningBy</span><span class=o>(</span><span class=n>e</span> <span class=o>-&gt;</span> <span class=n>e</span><span class=o>.</span><span class=na>getSalary</span><span class=o>()</span> <span class=o>&gt;</span> <span class=mi>7000</span><span class=o>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span><span class=o>(</span><span class=n>Boolean</span> <span class=n>key</span> <span class=o>:</span> <span class=n>collect</span><span class=o>.</span><span class=na>keySet</span><span class=o>()){</span>
+</span></span><span class=line><span class=cl>    <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;key: &#34;</span> <span class=o>+</span> <span class=n>key</span> <span class=o>+</span> <span class=s>&#34;, value: &#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>.</span><span class=na>get</span><span class=o>(</span><span class=n>key</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// key: false, value: [Employee(name=李四, age=38, salary=5555.55), Employee(name=王五, age=50, salary=6666.66), Employee(name=赵六, age=15, salary=3333.33)]
+</span></span></span><span class=line><span class=cl><span class=c1>// key: true, value: [Employee(name=张三, age=18, salary=9999.99), Employee(name=周七, age=18, salary=7777.77)]
+</span></span></span></code></pre></td></tr></table></div></div><ul><li>joining</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=c1>// 连接流中每个字符串
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>List</span><span class=o>&lt;</span><span class=n>Employee</span><span class=o>&gt;</span> <span class=n>employees</span> <span class=o>=</span> <span class=n>Arrays</span><span class=o>.</span><span class=na>asList</span><span class=o>(</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;张三&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>9999.99</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;李四&#34;</span><span class=o>,</span> <span class=mi>38</span><span class=o>,</span> <span class=mf>5555.55</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;王五&#34;</span><span class=o>,</span> <span class=mi>50</span><span class=o>,</span> <span class=mf>6666.66</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;赵六&#34;</span><span class=o>,</span> <span class=mi>15</span><span class=o>,</span> <span class=mf>3333.33</span><span class=o>),</span>
+</span></span><span class=line><span class=cl>        <span class=k>new</span> <span class=n>Employee</span><span class=o>(</span><span class=s>&#34;周七&#34;</span><span class=o>,</span> <span class=mi>18</span><span class=o>,</span> <span class=mf>7777.77</span><span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>String</span> <span class=n>collect</span> <span class=o>=</span> <span class=n>employees</span><span class=o>.</span><span class=na>stream</span><span class=o>()</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>map</span><span class=o>(</span><span class=n>Employee</span><span class=o>::</span><span class=n>getName</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        <span class=o>.</span><span class=na>collect</span><span class=o>(</span><span class=n>Collectors</span><span class=o>.</span><span class=na>joining</span><span class=o>(</span><span class=s>&#34;, &#34;</span><span class=o>,</span><span class=s>&#34;这些人：&#34;</span><span class=o>,</span><span class=s>&#34;他们好棒&#34;</span><span class=o>));</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;str: &#34;</span> <span class=o>+</span> <span class=n>collect</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 输出：
+</span></span></span><span class=line><span class=cl><span class=c1>// str: 这些人：张三, 李四, 王五, 赵六, 周七他们好棒
+</span></span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2022-06-07</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-source href=https://github.com/hzleii/hzleii.github.io/blog/content/posts/Stream.md target=_blank rel="noopener noreferrer">查看源代码</a>
+</span><span>|&nbsp;<a class=link-to-edit href=https://github.com/hzleii/hzleii.github.io/edit/blog/content/posts/Stream.md target=_blank rel="noopener noreferrer">编辑此页</a></span></div><div class=post-info-share></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/stream/>Stream</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/oracle/ class=prev rel=prev title="Oracle 的使用"><i class="fas fa-angle-left fa-fw"></i>Oracle 的使用</a></div></div><div id=comments><div id=giscus></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://giscus.app/>giscus</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.115.4">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2019 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank rel="noopener noreferrer">磊子</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div><div class=footer-line></div><div class=footer-line></div></div><script>"serviceWorker"in navigator&&(navigator.serviceWorker.register("/sw.min.js",{scope:"/"}).then(function(){}),navigator.serviceWorker.ready.then(function(){}))</script></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw"></i></a></div><div id=cookieconsent-container></div><div class=assets><link rel=stylesheet href=/lib/lightgallery/lightgallery.min.css><link rel=stylesheet href=/lib/cookieconsent/cookieconsent.min.css><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:15},comment:{giscus:{darkTheme:"dark",dataCategory:"评论",dataCategoryId:"DIC_kwDOJUTMkM4CVoj8",dataEmitMetadata:"0",dataInputPosition:"bottom",dataLang:"en",dataMapping:"pathname",dataReactionsEnabled:"1",dataRepo:"hzleii/giscus",dataRepoId:"R_kgDOJUTMkA",dataStrict:"0",lightTheme:"light"}},cookieconsent:{content:{dismiss:"同意",link:"了解更多",message:"本网站使用 Cookies 来改善您的浏览体验."},enable:!0,palette:{button:{background:"#f0f0f0"},popup:{background:"#1aa3ff"}},theme:"edgeless"},lightGallery:{actualSize:!1,exThumbImage:"data-thumbnail",hideBarsDelay:2e3,selector:".lightgallery",speed:400,thumbContHeight:80,thumbWidth:80,thumbnail:!0},search:{distance:100,findAllMatches:!1,fuseIndexURL:"/index.json",highlightTag:"em",ignoreFieldNorm:!1,ignoreLocation:!0,isCaseSensitive:!1,location:0,maxResultLength:10,minMatchCharLength:2,noResultsFound:"没有找到结果",snippetLength:50,threshold:.1,type:"fuse",useExtendedSearch:!1},table:{sort:!0}}</script><script type=text/javascript src=/lib/tablesort/tablesort.min.js></script><script type=text/javascript src=/lib/lightgallery/lightgallery.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-thumbnail.min.js></script><script type=text/javascript src=/lib/lightgallery/lg-zoom.min.js></script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script><script type=text/javascript src=/lib/cookieconsent/cookieconsent.min.js defer></script><script type=text/javascript src=/js/cookieconsent.min.js defer></script><script type=text/javascript src=https://website-card-embed.humblex.top/website-card-embed-loveit.js></script><script type=text/javascript src=/js/theme.min.js defer></script><script type=text/javascript src=/js/giscus.min.js defer></script><script type=text/javascript>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-XXBC12BWSH",{anonymize_ip:!0})</script><script type=text/javascript src="https://www.googletagmanager.com/gtag/js?id=G-XXBC12BWSH" async></script></div></body></html>
