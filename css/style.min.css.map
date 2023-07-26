@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "style.min.css",
-	"sourceRoot": "/home/runner/work/hzleii.github.io1/hzleii.github.io1",
+	"sourceRoot": "/home/runner/work/hzleii.github.io/hzleii.github.io",
 	"sources": [
 		"themes/DoIt/assets/css/style.scss",
 		"themes/DoIt/assets/css/_variables.scss",
