@@ -653,8 +653,8 @@ enableEmoji = true
         # owner/repo
         dataRepo = "hzleii/giscus"
         dataRepoId = "R_kgDOJUTMkA"
-        dataCategory = "评论"
-        dataCategoryId = "DIC_kwDOJUTMkM4CVoj8"
+        dataCategory = "Q&A"
+        dataCategoryId = "DIC_kwDOJUTMkM4CVoj9"
         dataMapping = "pathname"
         dataReactionsEnabled = "1"
         dataEmitMetadata = "0"
